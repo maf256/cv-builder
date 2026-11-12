@@ -1,0 +1,200 @@
+# Banned words and phrases, one per line. Checked by scripts/lint_text.py.
+# Matching ignores case and requires whole words. A trailing * matches any
+# word ending (passionat* matches passionate and passionately).
+# Lines under [en] apply to English documents, [no] to Norwegian ones.
+# The list is a floor, not the whole rule; see writing-rules.md.
+
+[en]
+results-driven
+results-oriented
+result-oriented
+detail-oriented
+goal-oriented
+team player
+self-starter
+self-motivated
+go-getter
+hard-working
+hardworking
+highly motivated
+motivated
+passionat*
+passion for
+dynamic
+proactive*
+synerg*
+leverag*
+utiliz*
+utilis*
+spearhead*
+orchestrat*
+championed
+empowered
+streamlin*
+cutting-edge
+state-of-the-art
+best-in-class
+best of breed
+world-class
+innovative
+visionary
+thought leader*
+guru
+ninja
+rockstar
+strategic thinker
+out of the box
+outside the box
+think outside
+proven track record
+track record
+strong work ethic
+excellent communication skills
+strong communication skills
+excellent interpersonal skills
+great communication
+fast learner
+quick learner
+fast-paced
+wear many hats
+hit the ground running
+go above and beyond
+above and beyond
+value-add
+added value
+core competenc*
+seasoned
+dedicated professional
+accomplished
+extensive experience
+wealth of experience
+responsible for
+duties included
+duties include
+tasked with
+in order to
+various
+a variety of
+a wide range of
+wide range
+etc
+and so on
+very
+highly
+extremely
+really
+truly
+incredibly
+quite
+i believe
+i feel that
+i think that
+i am confident
+perfect fit
+great fit
+ideal candidate
+i am writing to
+i would like to apply
+please find attached
+to whom it may concern
+i look forward to hearing from you
+thank you for your consideration
+unique
+robust
+holistic
+deep dive
+circle back
+game-chang*
+mission-critical
+bottom line
+stakeholder management skills
+excellent
+exceptional
+outstanding
+successfully
+
+[no]
+resultatorientert*
+løsningsorientert*
+målrettet*
+målbevisst*
+strukturert*
+selvgående
+selvstendig og
+fleksibel*
+omstillingsdyktig*
+engasjert*
+motivert*
+pliktoppfyllende
+arbeidsom*
+positiv innstilling
+positiv og
+utadvendt*
+lagspiller*
+teamplayer*
+team player
+brenner for
+lidenskap*
+dynamisk*
+proaktiv*
+innovativ*
+nytenkende
+fremoverlent*
+framoverlent*
+gode samarbeidsevner
+gode kommunikasjonsevner
+god muntlig og skriftlig fremstillingsevne
+står på
+stå-på-vilje
+ståpåvilje
+lærevillig*
+lærer raskt
+rask til å lære
+høy arbeidskapasitet
+stor arbeidskapasitet
+trives i et hektisk miljø
+hektisk
+bred erfaring
+lang erfaring
+solid erfaring
+bred kompetanse
+ansvarlig for
+hadde ansvar for
+ansvar for diverse
+arbeidsoppgaver inkluderte
+arbeidsoppgavene besto av
+diverse
+ulike arbeidsoppgaver
+osv
+o.l
+m.m
+og lignende
+veldig
+svært
+meget
+utrolig
+virkelig
+ekstremt
+jeg mener at
+jeg tror at
+jeg føler at
+jeg er sikker på
+jeg viser til
+viser til utlysning*
+viser til annonse*
+jeg søker herved
+søker med dette
+håper på positiv tilbakemelding
+håper på positivt svar
+håper å høre fra dere
+ser frem til å høre fra dere
+perfekt for
+rett person
+den rette for
+unik*
+helhetlig*
+robust*
+merverdi
+kjernekompetanse
+verdiskaping
+synergi*

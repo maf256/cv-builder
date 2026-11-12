@@ -1,0 +1,11 @@
+{
+  "name": "cv-builder",
+  "owner": { "name": "maf256" },
+  "plugins": [
+    {
+      "name": "cv-builder",
+      "source": "./",
+      "description": "Interactive CV builder: analyses your CV against one job posting, then writes a tailored CV, résumé and cover letter in English, Norwegian or both."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "cv-builder",
+  "description": "Interactive CV builder: analyses your CV against one job posting, then writes a tailored CV, résumé and cover letter in English, Norwegian or both.",
+  "version": "1.0.0",
+  "author": { "name": "maf256", "url": "https://github.com/maf256" },
+  "homepage": "https://github.com/maf256/cv-builder",
+  "repository": "https://github.com/maf256/cv-builder",
+  "license": "MIT",
+  "keywords": ["cv", "resume", "cover-letter", "job-application", "ats", "norwegian"]
+}

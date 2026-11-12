@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "ui_lang": "en",
+    "output_langs": [
+      "en",
+      "no"
+    ],
+    "candidate": "Sam Example",
+    "role": "Data Analyst",
+    "company": "Acme Energi AS",
+    "posting_url": "https://example.com/jobs/data-analyst",
+    "date": "2026-01-15",
+    "sources": [
+      "cv-2025.pdf",
+      "bachelor-diploma.pdf",
+      "norskprove-b2.pdf",
+      "reference-nordlys.pdf"
+    ]
+  },
+  "summary": "The CV covers the SQL and reporting requirements but never names Power BI, which the posting asks for three times and which the reference letter shows Sam used daily. The two-column PDF layout scrambles the text order when extracted. Fixing the layout and naming the tools already used would lift both scores without adding anything new.",
+  "requirements": [
+    {
+      "text": "SQL for reporting and analysis",
+      "category": "must",
+      "status": "met",
+      "evidence": "Nordlys Kraft 2021–2025: wrote the monthly consumption reports in SQL"
+    },
+    {
+      "text": "Power BI dashboards",
+      "category": "must",
+      "status": "partial",
+      "evidence": "Not on the CV. The reference letter from Nordlys says Sam built the sales dashboard in Power BI"
+    },
+    {
+      "text": "Python for data preparation",
+      "category": "must",
+      "status": "partial",
+      "evidence": "Listed under skills; no role or course shows it in use"
+    },
+    {
+      "text": "Azure Data Factory",
+      "category": "must",
+      "status": "missing",
+      "evidence": "No source mentions Azure"
+    },
+    {
+      "text": "Three years as an analyst",
+      "category": "experience",
+      "status": "met",
+      "evidence": "Four years at Nordlys Kraft as analyst"
+    },
+    {
+      "text": "Background from the energy sector",
+      "category": "experience",
+      "status": "met",
+      "evidence": "Nordlys Kraft is a power retailer"
+    },
+    {
+      "text": "Experience presenting to management",
+      "category": "nice",
+      "status": "missing",
+      "evidence": "No source mentions presentations"
+    },
+    {
+      "text": "dbt",
+      "category": "nice",
+      "status": "missing",
+      "evidence": "No source mentions dbt"
+    },
+    {
+      "text": "Bachelor's degree in a quantitative field",
+      "category": "education",
+      "status": "met",
+      "evidence": "BSc Economics, diploma attached"
+    },
+    {
+      "text": "Norwegian, written and spoken",
+      "category": "language",
+      "status": "partial",
+      "evidence": "Norskprøve B2 attached; the posting asks for fluent Norwegian"
+    },
+    {
+      "text": "English, working level",
+      "category": "language",
+      "status": "met",
+      "evidence": "Degree taught in English"
+    }
+  ],
+  "keywords": [
+    {
+      "term": "SQL",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "Power BI",
+      "importance": "high",
+      "found": false
+    },
+    {
+      "term": "Python",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "Azure Data Factory",
+      "importance": "high",
+      "found": false
+    },
+    {
+      "term": "Data Analyst",
+      "importance": "high",
+      "found": false
+    },
+    {
+      "term": "dashboard",
+      "importance": "normal",
+      "found": false
+    },
+    {
+      "term": "reporting",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "data quality",
+      "importance": "normal",
+      "found": false
+    },
+    {
+      "term": "Excel",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "dbt",
+      "importance": "normal",
+      "found": false
+    },
+    {
+      "term": "forecasting",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "energy market",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "ETL",
+      "importance": "normal",
+      "found": false
+    },
+    {
+      "term": "KPI",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "stakeholders",
+      "importance": "normal",
+      "found": false
+    }
+  ],
+  "ats_checks": [
+    {
+      "id": "file_format",
+      "status": "pass",
+      "note": "Text-based PDF"
+    },
+    {
+      "id": "text_layer",
+      "status": "pass",
+      "note": "All text can be selected"
+    },
+    {
+      "id": "single_column",
+      "status": "fail",
+      "note": "Two columns; the skills sidebar is extracted into the middle of the work history"
+    },
+    {
+      "id": "no_tables_graphics",
+      "status": "fail",
+      "note": "Skill levels are drawn as bars and the contact details use icons"
+    },
+    {
+      "id": "standard_headings",
+      "status": "warn",
+      "note": "\"My journey\" should be \"Experience\""
+    },
+    {
+      "id": "contact_in_body",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "date_format",
+      "status": "warn",
+      "note": "Mixes \"2021–2025\" and \"Aug 2019 – Jun 2021\""
+    },
+    {
+      "id": "reverse_chronological",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "title_alignment",
+      "status": "warn",
+      "note": "The CV headline says \"Business Controller Assistant\"; the contract title at Nordlys was Analyst"
+    },
+    {
+      "id": "plain_characters",
+      "status": "pass",
+      "note": ""
+    }
+  ],
+  "contradictions": [
+    {
+      "title": "End date at Nordlys Kraft differs",
+      "detail": "The CV says the role ended in June 2025. The reference letter says the last working day was 31 March 2025.",
+      "sources": [
+        "cv-2025.pdf",
+        "reference-nordlys.pdf"
+      ],
+      "severity": "high"
+    },
+    {
+      "title": "Seven months with nothing recorded",
+      "detail": "Nothing is listed between the end of the degree in June 2020 and the start at Nordlys in February 2021.",
+      "sources": [
+        "cv-2025.pdf",
+        "bachelor-diploma.pdf"
+      ],
+      "severity": "low"
+    }
+  ],
+  "remove": [
+    {
+      "item": "Skill-level bars",
+      "reason": "An ATS cannot read them, and a self-rating is not evidence"
+    },
+    {
+      "item": "Café job, 2016–2017",
+      "reason": "Unrelated to the role and before the degree"
+    },
+    {
+      "item": "Hobbies section",
+      "reason": "Takes five lines and answers nothing in the posting"
+    },
+    {
+      "item": "Upper secondary school",
+      "reason": "The bachelor's degree makes it redundant"
+    }
+  ],
+  "add": [
+    {
+      "item": "Power BI sales dashboard at Nordlys",
+      "reason": "The reference letter documents it and the posting requires Power BI",
+      "needs_confirmation": false
+    },
+    {
+      "item": "Norskprøve B2 (2024)",
+      "reason": "Attached but not on the CV; the posting requires Norwegian",
+      "needs_confirmation": false
+    },
+    {
+      "item": "Where Python was used",
+      "reason": "Python is only in the skills list; a role or project is needed to support it",
+      "needs_confirmation": true
+    }
+  ],
+  "rewrite": [
+    {
+      "item": "Nordlys Kraft role description",
+      "reason": "Lists duties without naming SQL, Power BI or the report recipients, all of which the sources document"
+    },
+    {
+      "item": "Headline",
+      "reason": "Use the title held at Nordlys so it lines up with the posting's title"
+    }
+  ],
+  "research": [
+    {
+      "finding": "The analytics team reports on hourly consumption for 90,000 household customers",
+      "use": "Cover letter, second paragraph: link to the consumption reports at Nordlys",
+      "source_url": "https://example.com/about"
+    },
+    {
+      "finding": "The posting asks for the application in Norwegian and names Kari Hansen as contact",
+      "use": "Salutation; send the Norwegian set",
+      "source_url": "https://example.com/jobs/data-analyst"
+    }
+  ],
+  "questions": [
+    {
+      "id": "level_en",
+      "topic": "Language level",
+      "question": "Which level should the English documents be written at?",
+      "options": [
+        {
+          "key": "A",
+          "label": "B1: short, simple sentences"
+        },
+        {
+          "key": "B",
+          "label": "B2: clear and direct"
+        },
+        {
+          "key": "C",
+          "label": "C1: fluent professional"
+        },
+        {
+          "key": "D",
+          "label": "C2: native-level"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true,
+      "recommended": "C"
+    },
+    {
+      "id": "level_no",
+      "topic": "Language level",
+      "question": "Which level should the Norwegian documents be written at?",
+      "options": [
+        {
+          "key": "A",
+          "label": "B1: short, simple sentences"
+        },
+        {
+          "key": "B",
+          "label": "B2: clear and direct"
+        },
+        {
+          "key": "C",
+          "label": "C1: fluent professional"
+        },
+        {
+          "key": "D",
+          "label": "C2: native-level"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true,
+      "recommended": "B"
+    },
+    {
+      "id": "tone",
+      "topic": "Tone",
+      "question": "How should the documents read?",
+      "options": [
+        {
+          "key": "A",
+          "label": "Brief and factual, shortest possible"
+        },
+        {
+          "key": "B",
+          "label": "Neutral professional"
+        },
+        {
+          "key": "C",
+          "label": "Warm and personal in the cover letter, factual in the CV"
+        },
+        {
+          "key": "D",
+          "label": "Formal"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "length",
+      "topic": "Length",
+      "question": "How long should the full CV be? The résumé is always one page.",
+      "options": [
+        {
+          "key": "A",
+          "label": "One page"
+        },
+        {
+          "key": "B",
+          "label": "Two pages"
+        },
+        {
+          "key": "C",
+          "label": "As long as the relevant history needs"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true,
+      "recommended": "A"
+    },
+    {
+      "id": "remove",
+      "topic": "Remove",
+      "question": "Which of the proposed removals do you approve?",
+      "options": [
+        {
+          "key": "A",
+          "label": "Skill-level bars"
+        },
+        {
+          "key": "B",
+          "label": "Café job, 2016–2017"
+        },
+        {
+          "key": "C",
+          "label": "Hobbies section"
+        },
+        {
+          "key": "D",
+          "label": "Upper secondary school"
+        }
+      ],
+      "multi": true,
+      "allow_custom": true
+    },
+    {
+      "id": "conflict_1",
+      "topic": "Contradiction",
+      "question": "When did you leave Nordlys Kraft?",
+      "options": [
+        {
+          "key": "A",
+          "label": "31 March 2025, as in the reference letter"
+        },
+        {
+          "key": "B",
+          "label": "June 2025, as in the CV"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "timeline_1",
+      "topic": "Timeline",
+      "question": "What did you do between June 2020 and February 2021, and should the CV show it?",
+      "options": [
+        {
+          "key": "A",
+          "label": "Show it; I describe it below"
+        },
+        {
+          "key": "B",
+          "label": "Leave it unexplained"
+        },
+        {
+          "key": "C",
+          "label": "Explain it in the cover letter only"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "gap_1",
+      "topic": "Requirement",
+      "question": "The posting requires Azure Data Factory. What can you truthfully claim?",
+      "options": [
+        {
+          "key": "A",
+          "label": "I have used it; I describe where and when below"
+        },
+        {
+          "key": "B",
+          "label": "Some exposure; I describe it below"
+        },
+        {
+          "key": "C",
+          "label": "No"
+        },
+        {
+          "key": "D",
+          "label": "No, but I am learning it now; I describe the course below"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "add_1",
+      "topic": "Requirement",
+      "question": "Where have you used Python? The CV lists it but no role or course shows it.",
+      "options": [
+        {
+          "key": "A",
+          "label": "At Nordlys Kraft; I describe the work below"
+        },
+        {
+          "key": "B",
+          "label": "In a course or private project; I describe it below"
+        },
+        {
+          "key": "C",
+          "label": "Remove Python from the CV"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "new_skills",
+      "topic": "New skills",
+      "question": "Do you have skills, tools or certificates that are in none of the documents you sent?",
+      "options": [
+        {
+          "key": "A",
+          "label": "No, the documents are complete"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "new_experience",
+      "topic": "New experience",
+      "question": "Is there work, projects, volunteering or study missing from the documents?",
+      "options": [
+        {
+          "key": "A",
+          "label": "No"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
+    },
+    {
+      "id": "motivation",
+      "topic": "Cover letter",
+      "question": "Why this employer and this role?",
+      "options": [
+        {
+          "key": "A",
+          "label": "I want to keep working with consumption data in the power market"
+        },
+        {
+          "key": "B",
+          "label": "The team is larger than my last one and I want colleagues in the same field"
+        },
+        {
+          "key": "C",
+          "label": "The role moves me from reporting towards data engineering"
+        }
+      ],
+      "multi": true,
+      "allow_custom": true
+    },
+    {
+      "id": "personal",
+      "topic": "Personal details",
+      "question": "Which details should the CV show besides name, e-mail and phone?",
+      "options": [
+        {
+          "key": "A",
+          "label": "City"
+        },
+        {
+          "key": "B",
+          "label": "Full address"
+        },
+        {
+          "key": "C",
+          "label": "Date of birth"
+        },
+        {
+          "key": "D",
+          "label": "Photo"
+        },
+        {
+          "key": "E",
+          "label": "LinkedIn or portfolio link"
+        }
+      ],
+      "multi": true,
+      "allow_custom": true
+    },
+    {
+      "id": "references",
+      "topic": "References",
+      "question": "How should references be handled?",
+      "options": [
+        {
+          "key": "A",
+          "label": "\"Available on request\""
+        },
+        {
+          "key": "B",
+          "label": "List them; I write names and contact details below"
+        },
+        {
+          "key": "C",
+          "label": "Leave the section out"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true,
+      "recommended": "A"
+    }
+  ],
+  "scores": {
+    "match": 59,
+    "match_band": "mid",
+    "breakdown": [
+      {
+        "category": "must",
+        "weight": 50,
+        "pct": 50,
+        "count": 4,
+        "met": 1,
+        "partial": 2,
+        "missing": 1
+      },
+      {
+        "category": "experience",
+        "weight": 20,
+        "pct": 100,
+        "count": 2,
+        "met": 2,
+        "partial": 0,
+        "missing": 0
+      },
+      {
+        "category": "nice",
+        "weight": 15,
+        "pct": 0,
+        "count": 2,
+        "met": 0,
+        "partial": 0,
+        "missing": 2
+      },
+      {
+        "category": "education",
+        "weight": 10,
+        "pct": 100,
+        "count": 1,
+        "met": 1,
+        "partial": 0,
+        "missing": 0
+      },
+      {
+        "category": "language",
+        "weight": 5,
+        "pct": 75,
+        "count": 2,
+        "met": 1,
+        "partial": 1,
+        "missing": 0
+      }
+    ],
+    "keyword_coverage": 45,
+    "keywords_found": 7,
+    "keywords_total": 15,
+    "ats": 53,
+    "ats_band": "mid",
+    "ats_unreadable": false,
+    "checks_passed": 5
+  }
+}
