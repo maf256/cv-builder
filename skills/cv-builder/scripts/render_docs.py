@@ -9,6 +9,7 @@ PDF when Chrome, Chromium or Edge is installed. Supports the Markdown subset
 described in references/document-structure.md. Standard library only.
 """
 import html
+import os
 import re
 import shutil
 import subprocess
@@ -257,8 +258,15 @@ def page(markdown, lang, kind):
     )
 
 
+def windows_browsers():
+    roots = [os.environ.get(k) for k in ("ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA")]
+    tails = (r"Google\Chrome\Application\chrome.exe", r"Microsoft\Edge\Application\msedge.exe",
+             r"BraveSoftware\Brave-Browser\Application\brave.exe")
+    return [os.path.join(root, tail) for root in roots if root for tail in tails]
+
+
 def find_browser():
-    for candidate in BROWSERS:
+    for candidate in windows_browsers() + list(BROWSERS):
         if Path(candidate).is_file():
             return candidate
         found = shutil.which(candidate)
@@ -275,6 +283,8 @@ def pdf_pages(path):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows consoles
     args = [a for a in sys.argv[1:] if a != "--no-pdf"]
     if len(args) != 1:
         sys.exit(__doc__)

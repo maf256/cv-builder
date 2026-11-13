@@ -7,6 +7,8 @@ description: Side phase of /cv-builder. After the résumé and cover letter are 
 
 A read-only re-check. `/cv-builder` analysed the user's old CV in phase one and wrote new documents in phase two. `/reload` analyses the new documents the same way and shows what changed. It asks no questions, shows no form, and edits no document.
 
+Run the scripts with `python3`. On Windows the command is `python` or `py -3`; use whichever runs Python 3.
+
 The scripts, template and rubric belong to the sibling skill `cv-builder` (the folder next to this one). Paths below are relative to it.
 
 ## Rules

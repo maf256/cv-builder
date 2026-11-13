@@ -150,6 +150,8 @@ def lines_of(path):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows consoles
     args = sys.argv[1:]
     forced, allowed, targets = None, [], []
     while args:

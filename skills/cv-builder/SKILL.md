@@ -10,7 +10,7 @@ This skill turns a person's existing career documents and one job posting into a
 - **Phase 1, analyse.** Read everything, compare it with the posting, and report. Nothing is rewritten in this phase.
 - **Phase 2, write.** Runs only after the user has answered the question form and confirmed. It produces the documents in an output directory.
 
-File paths below are relative to this skill's directory.
+File paths below are relative to this skill's directory. Run the scripts with `python3`. On Windows the command is `python` or `py -3`; use whichever runs Python 3.
 
 ## Rules that hold in every step
 

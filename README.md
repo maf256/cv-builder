@@ -71,13 +71,27 @@ The last line should list `cv-builder` and `reload`. Then start a new chat. Run 
 
 To install for one project only, copy the folders to `.claude/skills/` in that project. If your app reads skills from another folder, copy `skills/*` there instead.
 
+### On Windows (PowerShell)
+
+Needs [Git](https://git-scm.com/download/win) and Python 3. Paste this into PowerShell, from any folder. It overwrites the old copy and deletes nothing:
+
+```powershell
+$d = Join-Path $env:TEMP ("cv-builder-" + [guid]::NewGuid())
+git clone --depth 1 https://github.com/maf256/cv-builder.git $d
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
+Copy-Item "$d\skills\*" "$env:USERPROFILE\.claude\skills\" -Recurse -Force
+Get-ChildItem "$env:USERPROFILE\.claude\skills"
+```
+
+The last line should list `cv-builder` and `reload`. Then start a new chat. Python runs as `python` or `py -3` on Windows; the skill knows this. PDFs are made with Chrome or Edge, which Windows already has.
+
 ### Claude.ai and Claude Desktop
 
 Zip the `skills/cv-builder` and `skills/reload` folders (one zip each) and upload them under Settings → Capabilities → Skills.
 
 ## Requirements
 
-- Python 3.8 or later (standard library only) for the report, the document renderer and the lint.
+- Python 3.8 or later (`python3`, or `python` on Windows; standard library only) for the report, the document renderer and the lint.
 - Optional: Chrome, Chromium or Edge for PDF output.
 
 ## Layout

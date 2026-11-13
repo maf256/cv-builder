@@ -226,6 +226,8 @@ def previous_scores(path):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows consoles
     if len(sys.argv) not in (2, 3):
         sys.exit(__doc__)
     data_path = Path(sys.argv[1])
