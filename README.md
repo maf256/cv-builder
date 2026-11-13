@@ -61,10 +61,12 @@ Then run `/cv-builder:cv-builder`, and `/cv-builder:reload` after phase two.
 ```bash
 git clone https://github.com/maf256/cv-builder.git
 mkdir -p ~/.claude/skills
-cp -r cv-builder/skills/cv-builder cv-builder/skills/reload ~/.claude/skills/
+cp -r cv-builder/skills/* ~/.claude/skills/
 ```
 
-Then run `/cv-builder` in any project. To install it for one project only, copy the folder to `.claude/skills/` in that project.
+This installs both skills, `cv-builder` and `reload`. Then run `/cv-builder` in any project, and `/reload` after phase two. Some apps list them as `/skill:cv-builder` and `/skill:reload`.
+
+To update later: `cd cv-builder && git pull`, then run the `cp` line again. To install it for one project only, copy the folder to `.claude/skills/` in that project.
 
 ### Claude.ai and Claude Desktop
 
