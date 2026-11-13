@@ -10,7 +10,8 @@ Write each document as Markdown using only the elements below. `scripts/render_d
 | A plain line directly under `#` | Contact line; separate items with ` · ` |
 | `## Section` | Section headings |
 | `### Entry` | A role, degree or course: `### Title, Employer` |
-| `*text*` alone on the line under `###` | Dates and place: `*03.2021–06.2023 · Bergen*` |
+| `*text*` alone on the line under `###` | Dates and place for a job: `*03.2021–06.2023 · Bergen*` |
+| Plain lines directly under `###` | Detail lines for the entry, each on its own line (see Education) |
 | `- text` | Bullets |
 | Plain paragraphs | Summary, cover-letter body |
 | `**bold**`, `[text](url)` | Sparingly; links for e-mail, LinkedIn, portfolio |
@@ -42,7 +43,20 @@ Order: name and contact line, summary, experience, education, courses and certif
 - **Length**: one A4 page by default, about 450 words. Two pages only when the history needs it and the user agreed in the plan at the gate, about 900 words.
 - **Summary**: one or two sentences of fact: current role or field, years in it, the qualifications the posting asks for that the user has. Leave it out when the tone is brief and it would only repeat the first entry.
 - **Experience**: newest first. Each entry has title, employer, dates, place, and two to four bullets. Give recent and relevant roles more bullets. Older or unrelated roles that are kept become one line under an "Earlier roles" / "Tidligere stillinger" entry, or are dropped.
-- **Education**: degree, institution, dates. Add the thesis or main subjects only when they answer a requirement.
+- **Education**: one `###` entry per degree, in this shape:
+
+  ```
+  ### Master i Executive Management – Strategic
+  Payame Noor University, Iran | 2015
+  Godkjent av NOKUT som 120 studiepoeng på masternivå i Norge.
+
+  ### Bachelor i Computer Engineering
+  Islamic Azad University, Iran | 2013
+
+  Bachelorgraden og Associate Degree er samlet godkjent av NOKUT som tilsvarende en akkreditert norsk bachelorgrad på 180 studiepoeng.
+  ```
+
+  Line one is the degree as the diploma names it. Line two is institution, country, a pipe, and the year (or start and end year). Line three appears only when a recognition decision exists, and says who recognised it and as what. A decision that covers several degrees goes in one plain paragraph after the last entry. Never write a recognition the sources do not show. Add the thesis or main subjects only when they answer a requirement. Official degree names keep their own punctuation; pass the name to the lint with `--allow`.
 - **Skills**: grouped by kind in plain lines, for example `- Programming: Python, SQL, TypeScript`. List only skills the ledger supports, preferring the posting's keywords. No self-ratings, bars or stars.
 - **Languages**: language and level. Use CEFR levels or the standard terms (morsmål, flytende; native, fluent) and the test name when there is one (Norskprøve B2, IELTS 7.5).
 - No references section unless the user asked for one.
@@ -105,5 +119,5 @@ Name
 - A Norwegian CV is one to two pages; here it is one unless the user chose two. Reference letters (attester) and diplomas (vitnemål) are sent as separate attachments when the posting asks for them; the CV does not reproduce them.
 - Date of birth and a photo are optional and uncommon in the public sector. Follow the user's answer to `personal`.
 - References: "Oppgis ved forespørsel" is accepted. If listed, give name, title, employer, phone.
-- Foreign degrees: keep the original name and add the Norwegian equivalent in brackets only when the user has a recognition decision (HK-dir, formerly NOKUT) or states the equivalence.
+- Foreign degrees: keep the original name. Add the recognition line (see Education) only when the user has a recognition decision from NOKUT or HK-dir, or states the equivalence themselves.
 - Norwegian language level matters to many employers. State it with its evidence (Norskprøve, Bergenstest, completed course level).

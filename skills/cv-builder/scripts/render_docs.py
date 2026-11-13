@@ -36,6 +36,7 @@ h2 {
   break-after: avoid;
 }
 h3 { font-size: 10.5pt; margin: 9pt 0 0; break-after: avoid; }
+h3 + p { margin: 0 0 8pt; }
 h3 + p.meta { margin: 0 0 3pt; color: #444; font-style: normal; break-after: avoid; }
 p { margin: 0 0 7pt; }
 ul { margin: 2pt 0 7pt; padding-left: 14pt; }
@@ -71,7 +72,10 @@ def inline(text):
 
 
 def parse(markdown):
-    """Return blocks: (kind, value). kind is h1, h2, h3, meta, li or p; a p value is a list of lines."""
+    """Return blocks: (kind, value). kind is h1, h2, h3, meta, li or p; a p value is a list of lines.
+
+    Plain lines directly under a ### entry are kept as separate lines.
+    """
     blocks, paragraph = [], []
 
     def flush():
@@ -81,6 +85,8 @@ def parse(markdown):
         after_h3 = blocks and blocks[-1][0] == "h3"
         if after_h3 and len(paragraph) == 1 and re.fullmatch(r"\*[^*]+\*", whole):
             blocks.append(("meta", whole[1:-1]))
+        elif after_h3:
+            blocks.append(("p", [part.strip() for part in paragraph]))  # detail lines under an entry stay separate
         else:
             lines, current = [], []
             for part in paragraph:

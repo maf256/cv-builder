@@ -17,8 +17,8 @@ Analyst with four years at a power retailer, writing consumption and sales repor
 
 ## Education
 
-### BSc Economics, University of Bergen
-*08.2017–06.2020*
+### BSc Economics
+University of Bergen, Norway | 2020
 
 ## Courses and certifications
 
