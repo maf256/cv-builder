@@ -23,6 +23,37 @@
     --track: #2c2f37;
   }
 }
+html.embed {
+  --bg: transparent; --surface: var(--card, #ffffff); --ink: var(--foreground, #17181c);
+  --muted: var(--muted-foreground, #5d616b); --line: var(--border, #e1e1dc);
+  --accent: var(--primary, #2f4a8a); --accent-soft: color-mix(in srgb, var(--primary, #2f4a8a) 14%, transparent);
+  --good: var(--success, #1f7a4d); --good-soft: color-mix(in srgb, var(--success, #1f7a4d) 16%, transparent);
+  --warn: var(--warning, #9a6200); --warn-soft: color-mix(in srgb, var(--warning, #9a6200) 16%, transparent);
+  --bad: var(--destructive, #b3312b); --bad-soft: color-mix(in srgb, var(--destructive, #b3312b) 16%, transparent);
+  --track: color-mix(in srgb, var(--foreground, #888888) 14%, transparent);
+}
+html.embed body { background: transparent; font-family: var(--font-sans, inherit); font-size: 14px; }
+html.embed main { max-width: none; padding: 4px 0 8px; }
+html.embed h1 { font-size: 21px; }
+html.embed .summary { font-size: 15.5px; }
+html.embed .tiles { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+html.embed .tile { padding: 12px; gap: 4px; }
+html.embed .ring { width: 76px; height: 76px; }
+html.embed .ring .num { font-size: 22px; }
+html.embed .tile .big { font-size: 30px; }
+html.embed section, html.embed details.fold { padding: 14px 16px; margin-top: 10px; }
+html.embed details.fold { padding: 10px 16px; }
+html.embed .cols { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+html.embed .q { padding: 8px 0; }
+html.embed .q .text { margin-bottom: 6px; }
+html.embed .q .opts { margin-bottom: 6px; gap: 4px; }
+html.embed .q label.opt { padding: 3px 8px; font-size: 13px; }
+html.embed .q input[type=text] { padding: 4px 8px; font-size: 13px; }
+html.embed .form-intro { margin: 0 0 6px; }
+@media (max-width: 520px) {
+  html.embed .tiles { grid-template-columns: repeat(2, 1fr); }
+  html.embed .cols { grid-template-columns: 1fr; }
+}
 * { box-sizing: border-box; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
@@ -41,8 +72,17 @@ a { color: var(--accent); }
   display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--surface); font-size: 13px; color: var(--muted);
 }
-.summary { font-size: 17px; line-height: 1.5; max-width: 70ch; margin-bottom: 24px; }
-section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 16px; }
+.summary { font-size: 17px; line-height: 1.45; max-width: 70ch; margin-bottom: 10px; font-weight: 600; }
+.fixes { margin: 0 0 20px; padding-left: 22px; max-width: 70ch; }
+.fixes li { margin-bottom: 3px; }
+section, details.fold { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 16px; }
+details.fold { padding: 14px 22px; color: var(--ink); font-size: 15px; }
+details.fold[open] { padding-bottom: 22px; }
+details.fold > summary { font-size: 16px; font-weight: 700; list-style: none; cursor: pointer; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "▸ "; color: var(--muted); }
+details.fold[open] > summary::before { content: "▾ "; }
+details.fold[open] > summary { margin-bottom: 14px; }
 .count { color: var(--muted); font-weight: 400; }
 .empty { color: var(--muted); margin: 0; }
 
@@ -112,19 +152,19 @@ tr.group td { border-top: 0; padding: 18px 0 6px; font-weight: 700; }
 .research li span { display: block; color: var(--muted); font-size: 13.5px; }
 
 .form-intro { color: var(--muted); max-width: 70ch; }
-.q { border-top: 1px solid var(--line); padding: 18px 0; }
-.q .topic { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.q .text { font-weight: 600; font-size: 16px; margin: 2px 0 10px; }
-.q label.opt { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px; cursor: pointer; }
+.q { border-top: 1px solid var(--line); padding: 12px 0; }
+.q .opts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: center; }
+.q .opts input[type=text] { flex: 1 1 200px; width: auto; min-width: 160px; }
+.q .text { font-weight: 600; font-size: 15px; margin: 0 0 8px; }
+.q label.opt { display: flex; gap: 8px; align-items: flex-start; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 14px; }
 .q label.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
-.q label.opt input { margin-top: 4px; accent-color: var(--accent); }
+.q label.opt input { margin-top: 3px; accent-color: var(--accent); }
 .q label.opt b { min-width: 16px; }
 .q .rec { font-size: 12px; color: var(--accent); font-weight: 600; margin-left: 6px; white-space: nowrap; }
-.q textarea, #answers-out {
-  display: block; width: 100%; height: 46px; min-height: 46px; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--line);
+.q input[type=text], #answers-out {
+  display: block; width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line);
   background: var(--bg); color: var(--ink); font: inherit; resize: vertical;
 }
-.q .own { font-size: 13px; color: var(--muted); margin: 8px 0 4px; display: block; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0 12px; }
 button {
   font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--accent);
@@ -132,10 +172,11 @@ button {
 }
 button.ghost { background: transparent; color: var(--accent); }
 #copied { color: var(--good); font-weight: 600; }
-#answers-out { height: 220px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
-details { margin-top: 16px; color: var(--muted); font-size: 13.5px; }
-details summary { cursor: pointer; font-weight: 600; }
-details p { margin: 8px 0 0; max-width: 80ch; }
+#answers-out.hide { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+#answers-out { height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+details:not(.fold) { margin-top: 16px; color: var(--muted); font-size: 13.5px; }
+details:not(.fold) summary { cursor: pointer; font-weight: 600; }
+details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
 
 @media (max-width: 860px) {
   .tiles { grid-template-columns: repeat(2, 1fr); }
@@ -158,6 +199,8 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   "use strict";
   var raw = document.getElementById("cv-data").textContent;
   var app = document.getElementById("app");
+  var EMBED = /*__EMBED__*/false;
+  if (EMBED) document.documentElement.classList.add("embed");
   var D;
   try { D = JSON.parse(raw); } catch (e) {
     app.textContent = "This is the report template. Run scripts/build_report.py to fill it with data.";
@@ -166,7 +209,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
 
   var T = {
     en: {
-      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents to write", posting: "Job posting",
+      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents to write", fixes: "Fix first", posting: "Job posting",
       langs: { en: "English", no: "Norwegian" },
       match: "Match score", ats: "ATS estimate", keywords: "Keyword coverage", contradictions: "Contradictions",
       of100: "/100",
@@ -190,7 +233,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
       changes: "Proposed changes", remove: "Remove", add: "Add", rewrite: "Rewrite", confirm: "Needs your confirmation", nothing: "Nothing proposed.",
       research: "Research for the writing phase", use: "Use", source: "Source", researchNone: "No findings recorded.",
       form: "Your answers",
-      formIntro: "Nothing has been rewritten yet. Answer the questions, press Copy answers, and paste the result into the chat. Pick a letter, write your own answer, or do both.",
+      formIntro: "Nothing is rewritten yet. Pick a letter or write your own, press Copy answers, paste it in the chat.",
       recommended: "Recommended", own: "Or write your own answer", ownOnly: "Your answer",
       copy: "Copy answers", reset: "Clear", copied: "Copied. Paste it into the chat.", copyFail: "Select the text below and copy it.",
       answersHead: "CV Builder answers", ownTag: "[own answer]", unanswered: "(no answer)",
@@ -199,7 +242,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
       how2: "ATS estimate: 60% keyword coverage (bold keywords count double) and 40% the ten format checks. 75 or more is likely to pass, 50 to 74 at risk, below 50 likely to be filtered out. ATS products differ, and most rank applications for a recruiter instead of rejecting them, so treat this as an estimate."
     },
     no: {
-      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter som skal skrives", posting: "Stillingsannonse",
+      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", posting: "Stillingsannonse",
       langs: { en: "Engelsk", no: "Norsk" },
       match: "Match", ats: "ATS-anslag", keywords: "Nøkkelord", contradictions: "Motsigelser",
       of100: "/100",
@@ -223,7 +266,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
       changes: "Foreslåtte endringer", remove: "Fjern", add: "Legg til", rewrite: "Skriv om", confirm: "Må bekreftes av deg", nothing: "Ingen forslag.",
       research: "Bakgrunn til skrivefasen", use: "Brukes i", source: "Kilde", researchNone: "Ingen funn registrert.",
       form: "Dine svar",
-      formIntro: "Ingenting er skrevet om ennå. Svar på spørsmålene, trykk Kopier svar og lim resultatet inn i chatten. Velg en bokstav, skriv ditt eget svar, eller begge deler.",
+      formIntro: "Ingenting er skrevet om ennå. Velg en bokstav eller skriv eget svar, trykk Kopier svar, lim inn i chatten.",
       recommended: "Anbefalt", own: "Eller skriv ditt eget svar", ownOnly: "Ditt svar",
       copy: "Kopier svar", reset: "Tøm", copied: "Kopiert. Lim det inn i chatten.", copyFail: "Marker teksten under og kopier den.",
       answersHead: "Svar til CV Builder", ownTag: "[eget svar]", unanswered: "(ikke besvart)",
@@ -255,9 +298,9 @@ details p { margin: 8px 0 0; max-width: 80ch; }
     return node;
   }
   function pill(tone, label) { return el("span", { class: "pill " + tone }, (MARK[tone] ? MARK[tone] + " " : "") + label); }
-  function section(title, count) {
-    var s = el("section");
-    var h = el("h2", null, title);
+  function section(title, count, fold) {
+    var s = fold ? el("details", { class: "fold" }) : el("section");
+    var h = el(fold ? "summary" : "h2", null, title);
     if (count != null) h.appendChild(el("span", { class: "count", text: "  " + count }));
     s.appendChild(h);
     app.appendChild(s);
@@ -288,11 +331,13 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   app.appendChild(el("p", { class: "sub", text: D.meta.candidate + " · " + D.meta.date }));
   var meta = el("div", { class: "meta" });
   meta.appendChild(el("span", { class: "chip" }, t.writes + ": " + D.meta.output_langs.map(function (l) { return t.langs[l]; }).join(" + ")));
-  (D.meta.sources || []).forEach(function (s) { meta.appendChild(el("span", { class: "chip", text: s })); });
   var posting = link(D.meta.posting_url, t.posting + " ↗");
   if (posting) meta.appendChild(el("span", { class: "chip" }, posting));
   app.appendChild(meta);
   app.appendChild(el("p", { class: "summary", text: D.summary }));
+  var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
+  D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
+  app.appendChild(fixes);
 
   // Tiles
   var highCount = D.contradictions.filter(function (c) { return c.severity === "high"; }).length;
@@ -312,7 +357,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   ));
 
   // Breakdown
-  var sec = section(t.breakdown);
+  var sec = section(t.breakdown, null, true);
   var bars = el("div", { class: "bars" });
   S.breakdown.forEach(function (b) {
     var tone = b.pct >= 75 ? "good" : b.pct >= 50 ? "warn" : "bad";
@@ -327,7 +372,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(bars);
 
   // Requirements
-  sec = section(t.requirements, D.requirements.length);
+  sec = section(t.requirements, D.requirements.length, true);
   var tbody = el("tbody");
   ["must", "experience", "nice", "education", "language"].forEach(function (cat) {
     var rows = D.requirements.filter(function (r) { return r.category === cat; });
@@ -345,7 +390,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
     tbody)));
 
   // Keywords
-  sec = section(t.kwTitle, S.keywords_found + "/" + S.keywords_total);
+  sec = section(t.kwTitle, S.keywords_found + "/" + S.keywords_total, true);
   [["found", t.kwFound, true], ["missing", t.kwMissing, false]].forEach(function (g) {
     var list = D.keywords.filter(function (k) { return k.found === g[2]; });
     sec.appendChild(el("h3", null, g[1] + " (" + list.length + ")"));
@@ -359,7 +404,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(el("p", { class: "legend", text: t.kwLegend }));
 
   // ATS checks
-  sec = section(t.atsTitle, t.checksPassed.replace("{n}", S.checks_passed));
+  sec = section(t.atsTitle, t.checksPassed.replace("{n}", S.checks_passed), true);
   var checks = el("div", { class: "checks" });
   D.ats_checks.forEach(function (c) {
     checks.appendChild(el("div", { class: "check" },
@@ -370,7 +415,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(checks);
 
   // Contradictions
-  sec = section(t.contraTitle, D.contradictions.length);
+  sec = section(t.contraTitle, D.contradictions.length, EMBED);
   if (!D.contradictions.length) sec.appendChild(el("p", { class: "empty", text: t.contraNone }));
   else {
     var cards = el("div", { class: "cards" });
@@ -384,7 +429,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   }
 
   // Proposed changes
-  sec = section(t.changes);
+  sec = section(t.changes, null, EMBED);
   var cols = el("div", { class: "cols" });
   [["remove", t.remove, "rm"], ["add", t.add, "ad"], ["rewrite", t.rewrite, "rw"]].forEach(function (g) {
     var col = el("div", null, el("h3", null, g[1] + " (" + D[g[0]].length + ")"));
@@ -402,7 +447,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(cols);
 
   // Research
-  sec = section(t.research, D.research.length);
+  sec = section(t.research, D.research.length, true);
   if (!D.research.length) sec.appendChild(el("p", { class: "empty", text: t.researchNone }));
   else {
     var rl = el("ul", { class: "research" });
@@ -422,25 +467,25 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   var storeKey = "cv-builder:" + D.meta.company + ":" + D.meta.role + ":" + D.meta.date;
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch (e) {}
-  var out = el("textarea", { id: "answers-out", readonly: "readonly", "aria-label": t.form });
+  var out = el("textarea", { id: "answers-out", class: "hide", readonly: "readonly", "aria-label": t.form });
 
   D.questions.forEach(function (q, i) {
     var box = el("div", { class: "q" });
     box.dataset.id = q.id;
-    if (q.topic) box.appendChild(el("div", { class: "topic", text: (i + 1) + " · " + q.topic }));
-    box.appendChild(el("div", { class: "text", text: q.question }));
+    box.appendChild(el("div", { class: "text", text: (i + 1) + ". " + q.question }));
     var prev = saved[q.id] || {};
+    var opts = el("div", { class: "opts" });
+    box.appendChild(opts);
     (q.options || []).forEach(function (o) {
       var input = el("input", { type: q.multi ? "checkbox" : "radio", name: "q-" + q.id, value: o.key });
       if ((prev.keys || []).indexOf(o.key) !== -1) input.checked = true;
-      box.appendChild(el("label", { class: "opt" }, input, el("b", { text: o.key }),
+      opts.appendChild(el("label", { class: "opt" }, input, el("b", { text: o.key }),
         el("span", null, o.label, q.recommended === o.key ? el("span", { class: "rec", text: t.recommended }) : null)));
     });
     if (q.allow_custom !== false || !(q.options || []).length) {
-      var ta = el("textarea", { "aria-label": t.ownOnly });
+      var ta = el("input", { type: "text", placeholder: (q.options || []).length ? t.own : t.ownOnly, "aria-label": t.ownOnly });
       ta.value = prev.text || "";
-      box.appendChild(el("label", { class: "own" }, (q.options || []).length ? t.own : t.ownOnly));
-      box.appendChild(ta);
+      opts.appendChild(ta);
     }
     sec.appendChild(box);
   });
@@ -450,7 +495,7 @@ details p { margin: 8px 0 0; max-width: 80ch; }
     D.questions.forEach(function (q) {
       var box = sec.querySelector('.q[data-id="' + q.id.replace(/"/g, "") + '"]');
       var keys = Array.prototype.map.call(box.querySelectorAll("input:checked"), function (n) { return n.value; });
-      var ta = box.querySelector("textarea");
+      var ta = box.querySelector("input[type=text]");
       var text = ta ? ta.value.trim() : "";
       state[q.id] = { keys: keys, text: text };
       var parts = [];
@@ -471,15 +516,14 @@ details p { margin: 8px 0 0; max-width: 80ch; }
   var copyBtn = el("button", { type: "button", text: t.copy });
   copyBtn.addEventListener("click", function () {
     collect();
-    function done(ok) { copied.textContent = ok ? t.copied : t.copyFail; if (!ok) { out.focus(); out.select(); } }
+    function done(ok) { copied.textContent = ok ? t.copied : t.copyFail; if (!ok) { out.className = ""; out.focus(); out.select(); } }
     function legacy() { out.focus(); out.select(); var ok = false; try { ok = document.execCommand("copy"); } catch (e) {} done(ok); }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(out.value).then(function () { done(true); }, legacy);
     else legacy();
   });
   var resetBtn = el("button", { type: "button", class: "ghost", text: t.reset });
   resetBtn.addEventListener("click", function () {
-    Array.prototype.forEach.call(sec.querySelectorAll(".q input"), function (n) { n.checked = false; });
-    Array.prototype.forEach.call(sec.querySelectorAll(".q textarea"), function (n) { n.value = ""; });
+    Array.prototype.forEach.call(sec.querySelectorAll(".q input"), function (n) { n.checked = false; n.value = n.type === "text" ? "" : n.value; });
     copied.textContent = "";
     collect();
   });

@@ -17,7 +17,7 @@
       "reference-nordlys.pdf"
     ]
   },
-  "summary": "The CV covers the SQL and reporting requirements but never names Power BI, which the posting asks for three times and which the reference letter shows Sam used daily. The two-column PDF layout scrambles the text order when extracted. Fixing the layout and naming the tools already used would lift both scores without adding anything new.",
+  "summary": "Strong on SQL and experience; Power BI is missing from the CV and the layout blocks ATS parsing.",
   "requirements": [
     {
       "text": "SQL for reporting and analysis",
@@ -295,12 +295,11 @@
   "questions": [
     {
       "id": "level_en",
-      "topic": "Language level",
-      "question": "Which level should the English documents be written at?",
+      "question": "English level?",
       "options": [
         {
           "key": "A",
-          "label": "B1: short, simple sentences"
+          "label": "B1: simple sentences"
         },
         {
           "key": "B",
@@ -308,7 +307,7 @@
         },
         {
           "key": "C",
-          "label": "C1: fluent professional"
+          "label": "C1: fluent"
         },
         {
           "key": "D",
@@ -321,12 +320,11 @@
     },
     {
       "id": "level_no",
-      "topic": "Language level",
-      "question": "Which level should the Norwegian documents be written at?",
+      "question": "Norwegian level?",
       "options": [
         {
           "key": "A",
-          "label": "B1: short, simple sentences"
+          "label": "B1: simple sentences"
         },
         {
           "key": "B",
@@ -334,7 +332,7 @@
         },
         {
           "key": "C",
-          "label": "C1: fluent professional"
+          "label": "C1: fluent"
         },
         {
           "key": "D",
@@ -347,45 +345,23 @@
     },
     {
       "id": "tone",
-      "topic": "Tone",
-      "question": "How should the documents read?",
+      "question": "Tone?",
       "options": [
         {
           "key": "A",
-          "label": "Brief and factual, shortest possible"
+          "label": "Brief and factual"
         },
         {
           "key": "B",
-          "label": "Neutral professional"
+          "label": "Neutral"
         },
         {
           "key": "C",
-          "label": "Warm and personal in the cover letter, factual in the CV"
+          "label": "Warm letter, factual CV"
         },
         {
           "key": "D",
           "label": "Formal"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "length",
-      "topic": "Length",
-      "question": "How long should the full CV be? The résumé is always one page.",
-      "options": [
-        {
-          "key": "A",
-          "label": "One page"
-        },
-        {
-          "key": "B",
-          "label": "Two pages"
-        },
-        {
-          "key": "C",
-          "label": "As long as the relevant history needs"
         }
       ],
       "multi": false,
@@ -394,8 +370,7 @@
     },
     {
       "id": "remove",
-      "topic": "Remove",
-      "question": "Which of the proposed removals do you approve?",
+      "question": "Remove these?",
       "options": [
         {
           "key": "A",
@@ -418,106 +393,8 @@
       "allow_custom": true
     },
     {
-      "id": "conflict_1",
-      "topic": "Contradiction",
-      "question": "When did you leave Nordlys Kraft?",
-      "options": [
-        {
-          "key": "A",
-          "label": "31 March 2025, as in the reference letter"
-        },
-        {
-          "key": "B",
-          "label": "June 2025, as in the CV"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "timeline_1",
-      "topic": "Timeline",
-      "question": "What did you do between June 2020 and February 2021, and should the CV show it?",
-      "options": [
-        {
-          "key": "A",
-          "label": "Show it; I describe it below"
-        },
-        {
-          "key": "B",
-          "label": "Leave it unexplained"
-        },
-        {
-          "key": "C",
-          "label": "Explain it in the cover letter only"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "gap_1",
-      "topic": "Requirement",
-      "question": "The posting requires Azure Data Factory. What can you truthfully claim?",
-      "options": [
-        {
-          "key": "A",
-          "label": "I have used it; I describe where and when below"
-        },
-        {
-          "key": "B",
-          "label": "Some exposure; I describe it below"
-        },
-        {
-          "key": "C",
-          "label": "No"
-        },
-        {
-          "key": "D",
-          "label": "No, but I am learning it now; I describe the course below"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "add_1",
-      "topic": "Requirement",
-      "question": "Where have you used Python? The CV lists it but no role or course shows it.",
-      "options": [
-        {
-          "key": "A",
-          "label": "At Nordlys Kraft; I describe the work below"
-        },
-        {
-          "key": "B",
-          "label": "In a course or private project; I describe it below"
-        },
-        {
-          "key": "C",
-          "label": "Remove Python from the CV"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "new_skills",
-      "topic": "New skills",
-      "question": "Do you have skills, tools or certificates that are in none of the documents you sent?",
-      "options": [
-        {
-          "key": "A",
-          "label": "No, the documents are complete"
-        }
-      ],
-      "multi": false,
-      "allow_custom": true
-    },
-    {
-      "id": "new_experience",
-      "topic": "New experience",
-      "question": "Is there work, projects, volunteering or study missing from the documents?",
+      "id": "missing",
+      "question": "Anything missing from your documents?",
       "options": [
         {
           "key": "A",
@@ -529,76 +406,69 @@
     },
     {
       "id": "motivation",
-      "topic": "Cover letter",
-      "question": "Why this employer and this role?",
+      "question": "Why this employer?",
       "options": [
         {
           "key": "A",
-          "label": "I want to keep working with consumption data in the power market"
+          "label": "More consumption data in the power market"
         },
         {
           "key": "B",
-          "label": "The team is larger than my last one and I want colleagues in the same field"
+          "label": "Larger team in my field"
         },
         {
           "key": "C",
-          "label": "The role moves me from reporting towards data engineering"
+          "label": "Move from reporting to data engineering"
         }
       ],
       "multi": true,
       "allow_custom": true
     },
     {
-      "id": "personal",
-      "topic": "Personal details",
-      "question": "Which details should the CV show besides name, e-mail and phone?",
+      "id": "conflict_1",
+      "question": "End date at Nordlys?",
       "options": [
         {
           "key": "A",
-          "label": "City"
+          "label": "31 Mar 2025 (reference letter)"
         },
         {
           "key": "B",
-          "label": "Full address"
-        },
-        {
-          "key": "C",
-          "label": "Date of birth"
-        },
-        {
-          "key": "D",
-          "label": "Photo"
-        },
-        {
-          "key": "E",
-          "label": "LinkedIn or portfolio link"
-        }
-      ],
-      "multi": true,
-      "allow_custom": true
-    },
-    {
-      "id": "references",
-      "topic": "References",
-      "question": "How should references be handled?",
-      "options": [
-        {
-          "key": "A",
-          "label": "\"Available on request\""
-        },
-        {
-          "key": "B",
-          "label": "List them; I write names and contact details below"
-        },
-        {
-          "key": "C",
-          "label": "Leave the section out"
+          "label": "Jun 2025 (CV)"
         }
       ],
       "multi": false,
-      "allow_custom": true,
-      "recommended": "A"
+      "allow_custom": true
+    },
+    {
+      "id": "gap_1",
+      "question": "Azure Data Factory?",
+      "options": [
+        {
+          "key": "A",
+          "label": "Yes, details below"
+        },
+        {
+          "key": "B",
+          "label": "Some exposure, details below"
+        },
+        {
+          "key": "C",
+          "label": "No"
+        },
+        {
+          "key": "D",
+          "label": "Learning it now, details below"
+        }
+      ],
+      "multi": false,
+      "allow_custom": true
     }
+  ],
+  "top_fixes": [
+    "Add Power BI: the reference letter proves it",
+    "Switch to one column and drop the skill bars",
+    "Settle the Nordlys end date: CV and letter disagree"
   ],
   "scores": {
     "match": 59,

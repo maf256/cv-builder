@@ -5,6 +5,7 @@ Usage: build_report.py <report-data.json> [output.html]
 
 Validates the data, computes the scores defined in references/analysis-rubric.md,
 writes them back into the JSON under "scores", and fills assets/report-template.html.
+Writes report.html (standalone) and report-chat.html (themed for inline display).
 Standard library only.
 """
 import json
@@ -14,6 +15,13 @@ from pathlib import Path
 SKILL_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE = SKILL_DIR / "assets" / "report-template.html"
 MARKER = "/*__CV_DATA__*/"
+EMBED_OFF, EMBED_ON = "/*__EMBED__*/false", "/*__EMBED__*/true"
+
+MAX_SUMMARY = 160
+MAX_FIX = 90
+MAX_QUESTIONS = 8
+MAX_QUESTION = 90
+MAX_OPTION = 60
 
 CATEGORY_WEIGHTS = {"must": 50, "experience": 20, "nice": 15, "education": 10, "language": 5}
 STATUS_POINTS = {"met": 1.0, "partial": 0.5, "missing": 0.0}
@@ -61,7 +69,16 @@ def validate(data):
             need(meta, key, str, "meta")
         need(meta, "sources", list, "meta")
 
-    need(data, "summary", str, "root")
+    summary = need(data, "summary", str, "root")
+    if summary and len(summary) > MAX_SUMMARY:
+        errors.append(f"summary: {len(summary)} characters; keep it to one sentence under {MAX_SUMMARY}")
+    fixes = need(data, "top_fixes", list, "root")
+    if fixes is not None:
+        if not 1 <= len(fixes) <= 3:
+            errors.append("top_fixes: give one to three items")
+        for i, f in enumerate(fixes):
+            if not isinstance(f, str) or len(f) > MAX_FIX:
+                errors.append(f"top_fixes[{i}]: a string under {MAX_FIX} characters")
 
     reqs = need(data, "requirements", list, "root")
     if reqs is not None:
@@ -105,6 +122,8 @@ def validate(data):
         need(item, "finding", str, f"research[{i}]")
 
     questions = need(data, "questions", list, "root")
+    if questions is not None and len(questions) > MAX_QUESTIONS:
+        errors.append(f"questions: {len(questions)} questions; the form holds {MAX_QUESTIONS} at most (see references/form-questions.md)")
     seen = set()
     for i, q in enumerate(questions or []):
         where = f"questions[{i}]"
@@ -112,9 +131,14 @@ def validate(data):
         if qid in seen:
             errors.append(f"{where}.id: '{qid}' is used twice")
         seen.add(qid)
-        need(q, "question", str, where)
+        text = need(q, "question", str, where)
+        if text and len(text) > MAX_QUESTION:
+            errors.append(f"{where}.question: {len(text)} characters; keep it under {MAX_QUESTION}")
         options = need(q, "options", list, where)
         if options is not None:
+            for o in options:
+                if len(str(o.get("label", ""))) > MAX_OPTION:
+                    errors.append(f"{where}: option {o.get('key')} label is over {MAX_OPTION} characters")
             keys = [o.get("key") for o in options]
             if len(options) > len(OPTION_KEYS) or keys != list(OPTION_KEYS[: len(options)]):
                 errors.append(f"{where}.options: keys must be A, B, C... in order, six at most")
@@ -184,6 +208,7 @@ def main():
         sys.exit(__doc__)
     data_path = Path(sys.argv[1])
     out_path = Path(sys.argv[2]) if len(sys.argv) == 3 else data_path.with_name("report.html")
+    chat_path = out_path.with_name(out_path.stem + "-chat.html")
 
     try:
         data = json.loads(data_path.read_text(encoding="utf-8"))
@@ -201,14 +226,16 @@ def main():
     data_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     template = TEMPLATE.read_text(encoding="utf-8")
-    if MARKER not in template:
-        sys.exit(f"{TEMPLATE}: data marker not found")
+    if MARKER not in template or EMBED_OFF not in template:
+        sys.exit(f"{TEMPLATE}: data or embed marker not found")
     # "</" must not appear inside a <script> block
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    out_path.write_text(template.replace(MARKER, payload), encoding="utf-8")
+    page = template.replace(MARKER, payload)
+    out_path.write_text(page, encoding="utf-8")
+    chat_path.write_text(page.replace(EMBED_OFF, EMBED_ON), encoding="utf-8")
 
     s = data["scores"]
-    print(f"Wrote {out_path}")
+    print(f"Wrote {out_path} and {chat_path.name}")
     print(f"Match {s['match']}/100 ({s['match_band']}) · ATS {s['ats']}/100 ({s['ats_band']}) · "
           f"keywords {s['keywords_found']}/{s['keywords_total']} ({s['keyword_coverage']}%)")
 

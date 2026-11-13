@@ -67,30 +67,38 @@ Do not compute the scores yourself. The report script computes them from your ra
 
 ## Step 3: build the report
 
-The report is always the same HTML page. Only the data changes.
+The report is always the same HTML page. Only the data changes. It is short on purpose: a one-sentence verdict, three fixes, four numbers, then the form.
 
-1. Create the output directory in the user's working directory: `cv-output/<company>-<role>/`, lower-case, hyphenated, ASCII.
+1. Get the folder name from the script, never by hand:
+
+   ```bash
+   python3 scripts/slug.py "<full name>" "<job title>" "<company>"
+   ```
+
+   It prints `fullname-jobtitle-company`, lower-case ASCII, for example `sam-example-data-analyst-acme-energi-as`. Create `cv-output/<that name>/` in the user's working directory.
 2. Write `report-data.json` there, following `references/report-data.md` exactly. Include the questions from step 4.
 3. Run:
 
    ```bash
-   python3 scripts/build_report.py cv-output/<company>-<role>/report-data.json
+   python3 scripts/build_report.py cv-output/<name>/report-data.json
    ```
 
-   This validates the data, computes the scores, and writes `report.html` next to the JSON. Fix any validation error it prints and run it again.
-4. Open `report.html` for the user (`open` on macOS, `xdg-open` on Linux, `start` on Windows), or give its path if you cannot.
+   This validates the data, computes the scores, and writes two files next to the JSON: `report.html` (standalone, for a browser) and `report-chat.html` (the same page, themed for inline display). Fix any validation error it prints and run it again.
+4. **Show the report in the chat. Do not ask the user to open a file.**
+   - If your host can render HTML inline, use it with `report-chat.html`. In T3 Code, load `html_preview` and `html_render` with ToolSearch, call `html_preview` with the file path to get `contentHeight`, then call `html_render` with the same path and `height` set to `contentHeight` (at most 2000).
+   - If the host has no inline rendering, open `report.html` (`open` on macOS, `xdg-open` on Linux, `start` on Windows) and give its path.
 
 Never hand-write the report HTML and never edit `assets/report-template.html` during a run. If Python is unavailable, compute the scores by the formulas in `references/analysis-rubric.md`, add them to the JSON under `scores`, and substitute the JSON for the `/*__CV_DATA__*/` marker in a copy of the template.
 
-Then give the user a short summary in chat: the match score, the ATS verdict, the number of contradictions, and that the form at the end of the report needs their answers.
+After the report, write one line in chat: that the form at the bottom needs answers. Do not repeat the report's contents.
 
 ## Step 4: the question form
 
-The form is the last section of the report. Build its questions from `references/form-questions.md`, which lists the fixed questions that appear on every run and the conditional ones that the analysis triggers.
+The form is the last section of the report. It must be quick to fill in: **at most 8 questions**, each question under 90 characters, each option under 60. Build the list from `references/form-questions.md`, which sets the fixed questions, the order of priority when there are too many, and the defaults that are not asked.
 
-Every question offers lettered choices (A, B, C, D) and a free-text field so the user can write their own answer instead. Mark the choice you would pick as recommended when you have a basis for it.
+Every question has lettered choices (A to D) and a one-line field for the user's own answer. Mark the choice you would pick as recommended when you have a basis for it.
 
-The user fills in the form in the browser, presses **Copy answers**, and pastes the result into the chat. Also accept answers typed directly, for example `1B, 2A, 4: remove only the 2009 internship`. If the user cannot open the report, ask the same questions in chat, a few at a time.
+The user answers in the report and presses **Copy answers**, then pastes the result into the chat. Also accept answers typed directly, for example `1B, 2A, 4: remove only the 2009 internship`. If the copy button does not work in the host, the user can type the letters.
 
 ## Step 5: the gate
 
@@ -116,7 +124,7 @@ For each output language, write three documents as Markdown:
 Layout of the output directory:
 
 ```
-cv-output/<company>-<role>/
+cv-output/<name>/
   report.html
   report-data.json
   answers.md
@@ -133,8 +141,8 @@ Write to the language level the user chose for each language (`references/writin
 Then render and check:
 
 ```bash
-python3 scripts/render_docs.py cv-output/<company>-<role>
-python3 scripts/lint_text.py cv-output/<company>-<role>
+python3 scripts/render_docs.py cv-output/<name>
+python3 scripts/lint_text.py cv-output/<name>
 ```
 
 `render_docs.py` turns each Markdown file into a Word file (`.docx`) and a single-column HTML file, both readable by an ATS, and into a PDF when Chrome, Chromium or Edge is installed. `lint_text.py` reports every banned word or phrase with its file and line. Rewrite each flagged sentence, then run both again until the lint passes. Do not silence a hit by swapping in a synonym with the same emptiness; say the concrete thing or delete the sentence.

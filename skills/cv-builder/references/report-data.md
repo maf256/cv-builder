@@ -1,6 +1,6 @@
 # report-data.json
 
-`scripts/build_report.py` reads this file, validates it, adds a `scores` object, and writes `report.html`. Use exactly these keys and enumerated values. All free text is written in the conversation language (`meta.ui_lang`).
+`scripts/build_report.py` reads this file, validates it, adds a `scores` object, and writes `report.html` (standalone) and `report-chat.html` (themed for inline display in chat). Use exactly these keys and enumerated values. All free text is written in the conversation language (`meta.ui_lang`).
 
 Describe changes in the report; do not include rewritten CV text.
 
@@ -16,7 +16,11 @@ Describe changes in the report; do not include rewritten CV text.
     "date": "2026-01-31",
     "sources": ["cv-2025.pdf", "bachelor-diploma.pdf"]
   },
-  "summary": "Two or three sentences: how well the CV fits, the main gap, the main fix.",
+  "summary": "One sentence, under 160 characters: the verdict and the main gap.",
+  "top_fixes": [
+    "Add Power BI: the reference letter proves it",
+    "Switch to one column and drop the skill bars"
+  ],
   "requirements": [
     {
       "text": "Three years' experience with Python",
@@ -62,8 +66,7 @@ Describe changes in the report; do not include rewritten CV text.
   "questions": [
     {
       "id": "level_en",
-      "topic": "Language level",
-      "question": "Which level should the English documents be written at?",
+      "question": "English level?",
       "options": [
         { "key": "A", "label": "B1: short, simple sentences" },
         { "key": "B", "label": "B2: clear and direct" },
@@ -93,6 +96,11 @@ Describe changes in the report; do not include rewritten CV text.
 | `ats_checks` | Exactly the ten ids in `analysis-rubric.md`, each once, in that order |
 | `ats_checks[].status` | `pass`, `warn`, `fail` |
 | `contradictions[].severity` | `high` or `low` |
+| `summary` | One sentence, at most 160 characters. Plain words, no hedging |
+| `top_fixes` | One to three strings, at most 90 characters each, ordered by impact |
+| `questions` | At most 8; see `form-questions.md` |
+| `questions[].question` | At most 90 characters |
+| `questions[].options[].label` | At most 60 characters |
 | `questions[].id` | Unique; use the ids in `form-questions.md` |
 | `questions[].options` | Zero to six items, keys `A` to `F` in order. Zero options makes an open question |
 | `questions[].multi` | `true` lets the user tick several options |

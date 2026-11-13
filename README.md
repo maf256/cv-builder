@@ -12,17 +12,17 @@ Run `/cv-builder` with your CV, any certificates or transcripts, and a link to t
 
 1. Asks whether to continue in Norwegian, English or both. The answer sets the conversation language and the language of the documents.
 2. Reads every attachment and the posting.
-3. Builds an HTML report, the same layout every time:
-   - match score against the posting's requirements, with the evidence for each
-   - ATS estimate: keyword coverage and ten format checks
-   - contradictions between your documents (dates, titles, gaps)
-   - what to remove, what to add, what to rewrite
-   - research on the employer for the cover letter
-4. Ends the report with a form. Each question has lettered choices and a field for your own answer: language level (B1 to C2), tone, length, removals, new skills, new experience, and questions raised by the analysis. Press **Copy answers** and paste the result into the chat.
+3. Shows a short report **in the chat**, in hosts that render HTML inline (T3 Code does). Elsewhere it opens the file in your browser. The layout is the same every time:
+   - a one-sentence verdict and the three fixes that matter most
+   - four numbers: match score, ATS estimate, keyword coverage, contradictions
+   - folded details: requirements with evidence, keywords, ATS checks, contradictions, what to remove, add and rewrite, employer research
+4. Ends with a form of at most eight quick questions: language level (B1 to C2), tone, what to remove, anything missing, why this employer, and the contradictions and gaps the analysis found. Each has lettered choices and a one-line field for your own answer. Press **Copy answers** and paste the result into the chat.
+
+Length, personal details and references are not asked; the skill picks sensible defaults and states them before it writes.
 
 **Round 2: writing**
 
-After you confirm, it writes into `cv-output/<company>-<role>/`:
+After you confirm, it writes into `cv-output/fullname-jobtitle-company/`, for example `cv-output/sam-example-data-analyst-acme-energi-as/`:
 
 ```
 report.html
@@ -82,19 +82,20 @@ skills/cv-builder/
     writing-rules.md            buzzword rule, language levels, tone
     document-structure.md       CV, résumé and cover letter structure; Norwegian conventions
     banned-words.txt            the lint list, English and Norwegian
-  assets/report-template.html   the report page
+  assets/report-template.html   the report page (standalone and chat versions)
   scripts/
     build_report.py             validates data, computes scores, fills the template
+    slug.py                     folder name: fullname-jobtitle-company
     render_docs.py              Markdown to Word, HTML and PDF
     lint_text.py                banned-word check
-examples/acme-data-analyst/     a fictional run: report data, a résumé, a cover letter
+examples/sam-example-data-analyst-acme-energi-as/     a fictional run: report data, a résumé, a cover letter
 ```
 
 ## Try the report without Claude
 
 ```bash
-python3 skills/cv-builder/scripts/build_report.py examples/acme-data-analyst/report-data.json
-open examples/acme-data-analyst/report.html
+python3 skills/cv-builder/scripts/build_report.py examples/sam-example-data-analyst-acme-energi-as/report-data.json
+open examples/sam-example-data-analyst-acme-energi-as/report.html
 ```
 
 ## How the scores work
