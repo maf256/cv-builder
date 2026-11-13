@@ -56,17 +56,20 @@ After phase two, run `/reload` for a fresh check of the finished documents. It a
 
 Then run `/cv-builder:cv-builder`, and `/cv-builder:reload` after phase two.
 
-### As a personal skill
+### As a personal skill (install and update)
+
+Paste this into a terminal. It works from any folder, the first time and for every update. Files with the same name are overwritten and nothing is deleted:
 
 ```bash
-git clone https://github.com/maf256/cv-builder.git
-mkdir -p ~/.claude/skills
-cp -r cv-builder/skills/* ~/.claude/skills/
+d=$(mktemp -d) && git clone --depth 1 https://github.com/maf256/cv-builder.git "$d/src" \
+  && mkdir -p ~/.claude/skills \
+  && cp -r "$d"/src/skills/* ~/.claude/skills/ \
+  && ls ~/.claude/skills
 ```
 
-This installs both skills, `cv-builder` and `reload`. Then run `/cv-builder` in any project, and `/reload` after phase two. Some apps list them as `/skill:cv-builder` and `/skill:reload`.
+The last line should list `cv-builder` and `reload`. Then start a new chat. Run `/cv-builder` in any project, and `/reload` after phase two. Some apps list them as `/skill:cv-builder` and `/skill:reload`.
 
-To update later: `cd cv-builder && git pull`, then run the `cp` line again. To install it for one project only, copy the folder to `.claude/skills/` in that project.
+To install for one project only, copy the folders to `.claude/skills/` in that project. If your app reads skills from another folder, copy `skills/*` there instead.
 
 ### Claude.ai and Claude Desktop
 
