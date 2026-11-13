@@ -44,6 +44,8 @@ html.embed .tile .big { font-size: 30px; }
 html.embed section, html.embed details.fold { padding: 14px 16px; margin-top: 10px; }
 html.embed details.fold { padding: 10px 16px; }
 html.embed .cols { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.delta { font-size: 12.5px; font-weight: 600; }
+.delta.good { color: var(--good); } .delta.bad { color: var(--bad); } .delta.neutral { color: var(--muted); }
 html.embed .q { padding: 8px 0; }
 html.embed .q .text { margin-bottom: 6px; }
 html.embed .q .opts { margin-bottom: 6px; gap: 4px; }
@@ -209,7 +211,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
 
   var T = {
     en: {
-      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents to write", fixes: "Fix first", posting: "Job posting",
+      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents", fixes: "Fix first", reloadTitle: "CV reload", sincePhase1: "since phase one", posting: "Job posting",
       langs: { en: "English", no: "Norwegian" },
       match: "Match score", ats: "ATS estimate", keywords: "Keyword coverage", contradictions: "Contradictions",
       of100: "/100",
@@ -242,7 +244,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
       how2: "ATS estimate: 60% keyword coverage (bold keywords count double) and 40% the ten format checks. 75 or more is likely to pass, 50 to 74 at risk, below 50 likely to be filtered out. ATS products differ, and most rank applications for a recruiter instead of rejecting them, so treat this as an estimate."
     },
     no: {
-      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", posting: "Stillingsannonse",
+      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", reloadTitle: "Ny analyse", sincePhase1: "siden fase 1", posting: "Stillingsannonse",
       langs: { en: "Engelsk", no: "Norsk" },
       match: "Match", ats: "ATS-anslag", keywords: "Nøkkelord", contradictions: "Motsigelser",
       of100: "/100",
@@ -277,11 +279,13 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   };
 
   var t = T[D.meta.ui_lang] || T.en;
+  var RELOAD = D.meta.mode === "reload";
+  var PS = D.previous_scores || null;
   var S = D.scores;
   var TONE = { high: "good", mid: "warn", low: "bad", met: "good", partial: "warn", missing: "bad", pass: "good", warn: "warn", fail: "bad" };
   var MARK = { good: "✓", warn: "!", bad: "✕" };
   document.documentElement.lang = D.meta.ui_lang === "no" ? "nb" : "en";
-  document.title = t.title + ": " + D.meta.role + " – " + D.meta.company;
+  document.title = (RELOAD ? t.reloadTitle : t.title) + ": " + D.meta.role + " " + t.at + " " + D.meta.company;
 
   function el(tag, attrs) {
     var node = document.createElement(tag);
@@ -296,6 +300,12 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
       node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
     }
     return node;
+  }
+  function delta(now, before, lowerBetter) {
+    if (!PS || before == null) return null;
+    var d = now - before, good = lowerBetter ? d < 0 : d > 0;
+    return el("div", { class: "delta " + (d === 0 ? "neutral" : good ? "good" : "bad"),
+      text: (d > 0 ? "+" : d < 0 ? "-" : "") + Math.abs(d) + " " + t.sincePhase1 });
   }
   function pill(tone, label) { return el("span", { class: "pill " + tone }, (MARK[tone] ? MARK[tone] + " " : "") + label); }
   function section(title, count, fold) {
@@ -326,7 +336,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   }
 
   // Header
-  app.appendChild(el("div", { class: "eyebrow", text: t.title }));
+  app.appendChild(el("div", { class: "eyebrow", text: RELOAD ? t.reloadTitle : t.title }));
   app.appendChild(el("h1", null, D.meta.role + " " + t.at + " " + D.meta.company));
   app.appendChild(el("p", { class: "sub", text: D.meta.candidate + " · " + D.meta.date }));
   var meta = el("div", { class: "meta" });
@@ -335,25 +345,30 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   if (posting) meta.appendChild(el("span", { class: "chip" }, posting));
   app.appendChild(meta);
   app.appendChild(el("p", { class: "summary", text: D.summary }));
-  var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
-  D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
-  app.appendChild(fixes);
+  if (D.top_fixes.length) {
+    var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
+    D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
+    app.appendChild(fixes);
+  }
 
   // Tiles
   var highCount = D.contradictions.filter(function (c) { return c.severity === "high"; }).length;
   var matchTone = TONE[S.match_band], atsTone = TONE[S.ats_band];
   app.appendChild(el("div", { class: "tiles" },
-    el("div", { class: "tile" }, el("div", { class: "label", text: t.match }), ring(S.match, matchTone), pill(matchTone, t.matchBand[S.match_band])),
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.match }), ring(S.match, matchTone), pill(matchTone, t.matchBand[S.match_band]), delta(S.match, PS && PS.match)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.ats }), ring(S.ats, atsTone), pill(atsTone, t.atsBand[S.ats_band]),
-      S.ats_unreadable ? el("div", { class: "note", text: t.unreadable }) : null),
+      S.ats_unreadable ? el("div", { class: "note", text: t.unreadable }) : null,
+      delta(S.ats, PS && PS.ats)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.keywords }),
       el("div", { class: "big" }, String(S.keyword_coverage), el("small", { text: " %" })),
-      el("div", { class: "note", text: S.keywords_found + " " + t.ofKeywords.replace("{n}", S.keywords_total) })),
+      el("div", { class: "note", text: S.keywords_found + " " + t.ofKeywords.replace("{n}", S.keywords_total) }),
+      delta(S.keyword_coverage, PS && PS.keyword_coverage)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.contradictions }),
       el("div", { class: "big", text: String(D.contradictions.length) }),
       D.contradictions.length
         ? (highCount ? pill("bad", t.highSev.replace("{n}", highCount)) : el("div", { class: "note", text: t.highSev.replace("{n}", 0) }))
-        : pill("good", t.none))
+        : pill("good", t.none),
+      delta(D.contradictions.length, PS && PS.contradictions, true))
   ));
 
   // Breakdown
@@ -445,6 +460,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
     cols.appendChild(col);
   });
   sec.appendChild(cols);
+  if (RELOAD && !D.remove.length && !D.add.length && !D.rewrite.length) app.removeChild(sec);
 
   // Research
   sec = section(t.research, D.research.length, true);
@@ -459,8 +475,10 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
     });
     sec.appendChild(rl);
   }
+  if (RELOAD && !D.research.length) app.removeChild(sec);
 
   // Form
+  function buildForm() {
   sec = section(t.form, D.questions.length);
   sec.id = "form-section";
   sec.appendChild(el("p", { class: "form-intro", text: t.formIntro }));
@@ -491,7 +509,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   });
 
   function collect() {
-    var state = {}, lines = [t.answersHead + ": " + D.meta.role + " – " + D.meta.company, ""];
+    var state = {}, lines = [t.answersHead + ": " + D.meta.role + " " + t.at + " " + D.meta.company, ""];
     D.questions.forEach(function (q) {
       var box = sec.querySelector('.q[data-id="' + q.id.replace(/"/g, "") + '"]');
       var keys = Array.prototype.map.call(box.querySelectorAll("input:checked"), function (n) { return n.value; });
@@ -530,6 +548,8 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(el("div", { class: "actions" }, copyBtn, resetBtn, copied));
   sec.appendChild(out);
   collect();
+  }
+  if (D.questions.length) buildForm();
 
   app.appendChild(el("details", null, el("summary", { text: t.how }), el("p", { text: t.how1 }), el("p", { text: t.how2 })));
 })();

@@ -29,6 +29,18 @@ When the lint flags a sentence, do not swap in a synonym. Ask what fact the sent
 | Jeg er en strukturert og løsningsorientert person | Innførte ny rutine for varemottak som kuttet feilplukk fra 40 til 12 i måneden |
 | Ansvarlig for kundeoppfølging | Fulgte opp 120 bedriftskunder på telefon og e-post |
 
+## Punctuation and AI patterns
+
+Text that reads as machine-written gets discounted, and recruiters spot it fast. The lint catches the mechanical tells; the habits behind them are yours to avoid.
+
+- **No em dashes, no spaced en dashes, no `--`, no spaced hyphens used as dashes.** Use a full stop, a comma or a colon, or split the sentence. The only dash allowed is the unspaced en dash inside a number range (`2021–2025`).
+- **No contrast framing.** "It's not X, it's Y", "not just X but Y", "this isn't about X, it's about Y", "more than just X", and in Norwegian "det handler ikke om X, men om Y", "ikke bare X, men også Y". State Y and drop X.
+- **No groups of three** adjectives or nouns by reflex. Use the number the facts give you.
+- **No tidy closing line** that sums up the letter or restates the fit.
+- **No exclamation marks, rhetorical questions, quotations or mottos.**
+- **No stock openers** ("In today's…", "I'm excited to…", "I am writing to…") and no stock vocabulary (delve, pivotal, seamless, journey, tapestry).
+- **Do not repeat a sentence shape.** If three sentences in a row start the same way or have the same length, rewrite one.
+
 ## Truth
 
 - Use only the fact ledger and the form answers. A number appears in a document only if a source or the user gave it. Do not estimate percentages or team sizes.
@@ -43,7 +55,7 @@ When the lint flags a sentence, do not swap in a synonym. Ask what fact the sent
 - Bullets do not end with a full stop. Paragraphs do.
 - Cut any word whose removal does not change the meaning.
 - No exclamation marks. No rhetorical questions. No quotations or mottos.
-- Write dates one way throughout a document: `03.2021–06.2023` or `Mar 2021 – Jun 2023`, never both.
+- Write dates one way throughout a document: `03.2021–06.2023` (unspaced en dash between numbers) or `Mar 2021 to Jun 2023`, never both.
 
 ## Language level
 
@@ -62,14 +74,31 @@ For Norwegian, the same scale applies. At B1 and B2 avoid long compounds where t
 
 ## Tone
 
+The tone choice applies to the cover letter. The CV and the résumé stay factual in every case: plain bullets, no voice.
+
 | Choice | Meaning |
 |---|---|
-| Brief and factual | Shortest wording that stays complete. No summary section unless it adds a fact. Cover letter under 200 words |
-| Neutral professional | Plain and businesslike. Cover letter 200 to 300 words |
-| Warm in the letter | CV as above. The cover letter may say in the user's own terms why the work matters to them, using their answer to the motivation question |
-| Formal | Full forms, no contractions, conventional salutation and close |
+| Friendly and conversational (default) | Reads like a capable person writing to someone they would like to work with. See "Cover letter voice" below. 200 to 300 words |
+| Neutral | Plain and businesslike, no chat. 200 to 300 words |
+| Brief and factual | Shortest wording that stays complete. Under 150 words |
+| Formal | Full forms, no contractions, conventional salutation and close. 250 to 300 words |
 
-Tone changes sentence shape and length. It never licenses buzzwords.
+Tone changes sentence shape and length. It never licenses buzzwords, dashes or the patterns above.
+
+## Cover letter voice (friendly and conversational)
+
+The goal is a letter a real person could have written in twenty minutes, not a template with the blanks filled in.
+
+- **Speak to a person.** Address the contact by first name when the posting names one ("Hi Kari," / "Hei Kari,"). Use "I" and "you" or "dere". Write the way you would explain it across a table.
+- **Start with the reason, not the formalities.** First sentence: the role and why it caught the writer's attention, taken from the user's motivation answer. Never "I am writing to apply".
+- **Use short, common words.** Contractions are fine in English ("I've", "I'm", "didn't"). In Norwegian use "jeg vil gjerne", "jeg har jobbet med", not "undertegnede" or "med dette søker jeg".
+- **Vary the rhythm.** Mix longer sentences with a short one. One sentence can be five words.
+- **Be specific once or twice.** One concrete detail beats a list of strengths: the report that went to 40,000 customers, the dashboard the sales managers opened every Monday. Use only details from the sources or the form answers.
+- **Admit a gap in one plain sentence** when the user said how they are closing it ("I haven't used Azure Data Factory yet. I'm taking the DP-203 course and finish in March."). Do not apologise and do not dress it up.
+- **Keep one personal note** the user gave: why this employer, why this field, a reason for the move. Never invent a motivation.
+- **End where the content ends.** Practical matter (start date), then a plain sign-off ("Best," / "Hilsen"). No summary, no "I look forward to".
+
+Read the finished letter aloud in your head. If a sentence sounds like a brochure, rewrite it the way the person would say it.
 
 ## Norwegian
 
@@ -77,4 +106,4 @@ Tone changes sentence shape and length. It never licenses buzzwords.
 - Norwegian business writing is direct and informal by international standards: "Hei" plus the contact's name is a normal salutation, "Med vennlig hilsen" a normal close. Use the contact name from the posting.
 - No English loanwords where a Norwegian word is in common use, except the names of tools and methods.
 - Compound words are written together (prosjektleder, kundeservice). Job titles are lower-case inside a sentence.
-- Dates: `03.2021–06.2023` or `mars 2021 – juni 2023`.
+- Dates: `03.2021–06.2023` or `mars 2021 til juni 2023`.

@@ -1,19 +1,45 @@
 #!/usr/bin/env python3
-"""Check documents for banned words and phrases.
+"""Check documents for banned words, dash punctuation and AI sentence patterns.
 
 Usage: lint_text.py <file-or-directory>... [--lang en|no] [--allow "phrase"]...
 
-Checks .md files against references/banned-words.txt. A file's language is taken
-from --lang, else from an en/ or no/ folder in its path; other files are checked
-against both lists. The report data is not checked: it may quote the user's CV.
---allow exempts an exact phrase, for official names that contain a banned word.
-Exits 1 if anything is found. Standard library only.
+Checks .md files against:
+  - references/banned-words.txt (buzzwords, filler, AI vocabulary)
+  - dash punctuation: em dashes, spaced en dashes, double hyphens, spaced hyphens
+    used as dashes (an unspaced en dash inside a number range such as 2021–2025
+    is allowed)
+  - AI sentence patterns: "it's not X, it's Y", "not just X but Y", and the
+    Norwegian equivalents
+
+A file's language is taken from --lang, else from an en/ or no/ folder in its
+path; other files are checked against both languages. The report data is not
+checked: it may quote the user's CV. --allow exempts an exact phrase, for
+official names that contain a banned word. Exits 1 if anything is found.
+Standard library only.
 """
 import re
 import sys
 from pathlib import Path
 
 WORDS_FILE = Path(__file__).resolve().parent.parent / "references" / "banned-words.txt"
+
+APOS = "['’]"
+
+# (label, regex, language or None for both)
+PATTERNS = [
+    ("em dash", r"—", None),
+    ("spaced dash", r"\s–\s", None),
+    ("double hyphen", r"(?<!-)--(?!-)", None),
+    ("hyphen used as a dash", r"(?<=\S) - (?=\S)", None),
+    ("'it's not X, it's Y'", rf"\b(?:it|this|that)(?:{APOS}s| is) not\b[^.!?]{{1,80}}?[,;]\s*(?:it|this|that)(?:{APOS}s| is)\b", "en"),
+    ("'not just X but Y'", r"\bnot (?:just|only|merely|simply)\b[^.!?]{1,80}?\bbut\b", "en"),
+    ("'isn't about X, it's about Y'", rf"\b(?:isn{APOS}t|is not|wasn{APOS}t|was not) (?:just |only |merely )?about\b[^.!?]{{1,80}}?[,;]\s*(?:it{APOS}s|it is|but)\b", "en"),
+    ("'more than just'", r"\bmore than (?:just|only)\b", "en"),
+    ("'det handler ikke om'", r"\bdet handler ikke om\b", "no"),
+    ("'ikke bare X, men også Y'", r"\bikke bare\b[^.!?]{1,80}?\bmen (?:også|like)\b", "no"),
+    ("'det er ikke X, det er Y'", r"\b(?:det|dette) er ikke\b[^.!?]{1,80}?[,;]\s*(?:det|dette) er\b", "no"),
+    ("'mer enn bare'", r"\bmer enn bare\b", "no"),
+]
 
 
 def load_words():
@@ -29,14 +55,18 @@ def load_words():
     return lists
 
 
-def compile_patterns(phrases):
+def compile_words(phrases):
     patterns = []
     for phrase in phrases:
         stem = phrase.rstrip("*")
         body = r"\s+".join(re.escape(part) for part in stem.split())
         tail = r"\w*" if phrase.endswith("*") else ""
-        patterns.append((phrase, re.compile(rf"(?<![\w-]){body}{tail}(?![\w-])", re.IGNORECASE)))
+        patterns.append((f"banned: {phrase}", re.compile(rf"(?<![\w-]){body}{tail}(?![\w-])", re.IGNORECASE)))
     return patterns
+
+
+def compile_patterns(lang):
+    return [(label, re.compile(rx, re.IGNORECASE)) for label, rx, only in PATTERNS if only in (None, lang)]
 
 
 def file_lang(path, forced):
@@ -74,24 +104,29 @@ def main():
             files.append(target)
     files = [f for f in files if f.name != "answers.md"]  # the user's own words
 
-    lists = load_words()
-    compiled = {lang: compile_patterns(words) for lang, words in lists.items()}
+    words = load_words()
+    word_rules = {lang: compile_words(group) for lang, group in words.items()}
     hits = 0
     for path in files:
         lang = file_lang(path, forced)
-        patterns = compiled.get(lang) or [p for group in compiled.values() for p in group]
+        langs = [lang] if lang in ("en", "no") else ["en", "no"]
+        rules = []
+        for item in langs:
+            rules += word_rules.get(item, []) + compile_patterns(item)
+        seen = set()
+        rules = [r for r in rules if not (r[0] in seen or seen.add(r[0]))]
         for number, line in lines_of(path):
             masked = line
             for phrase in allowed:
                 masked = re.sub(re.escape(phrase), lambda m: "\0" * len(m.group()), masked, flags=re.IGNORECASE)
-            for phrase, pattern in patterns:
+            for label, pattern in rules:
                 for match in pattern.finditer(masked):
                     hits += 1
-                    print(f"{path}:{number}: '{match.group()}' (rule: {phrase})\n    {line.strip()[:160]}")
+                    print(f"{path}:{number}: '{match.group().strip()}' ({label})\n    {line.strip()[:160]}")
 
     if hits:
-        print(f"\n{hits} banned word(s) or phrase(s) in {len(files)} file(s). "
-              "Replace each with the concrete fact, or delete the sentence.")
+        print(f"\n{hits} problem(s) in {len(files)} file(s). Replace each with the concrete fact, "
+              "split the sentence, or delete it.")
         sys.exit(1)
     print(f"Clean: {len(files)} file(s) checked.")
 

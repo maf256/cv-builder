@@ -113,6 +113,30 @@ exceptional
 outstanding
 successfully
 
+# AI vocabulary and patterns
+delve*
+tapestry
+testament to
+realm
+pivotal
+thrilled
+excited to
+excited about
+eager to
+ever-evolving
+rapidly evolving
+in today's
+in today’s
+seamless*
+elevate*
+journey
+passion
+love the opportunity
+furthermore
+moreover
+in conclusion
+worth noting
+
 [no]
 resultatorientert*
 løsningsorientert*
@@ -198,3 +222,10 @@ merverdi
 kjernekompetanse
 verdiskaping
 synergi*
+# AI vocabulary and patterns
+spennende
+stadig skiftende
+i dagens
+dykke ned
+gleder meg
+spent på

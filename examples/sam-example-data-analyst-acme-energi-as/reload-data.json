@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "ui_lang": "en",
+    "output_langs": [
+      "en",
+      "no"
+    ],
+    "candidate": "Sam Example",
+    "role": "Data Analyst",
+    "company": "Acme Energi AS",
+    "posting_url": "https://example.com/jobs/data-analyst",
+    "date": "2026-01-22",
+    "sources": [
+      "cv-2025.pdf",
+      "bachelor-diploma.pdf",
+      "norskprove-b2.pdf",
+      "reference-nordlys.pdf"
+    ],
+    "mode": "reload"
+  },
+  "summary": "Match up 19 points; Power BI and the Nordlys end date are fixed, Azure Data Factory is the one gap left.",
+  "requirements": [
+    {
+      "text": "SQL for reporting and analysis",
+      "category": "must",
+      "status": "met",
+      "evidence": "Nordlys Kraft 2021–2025: wrote the monthly consumption reports in SQL"
+    },
+    {
+      "text": "Power BI dashboards",
+      "category": "must",
+      "status": "met",
+      "evidence": "On the CV: sales dashboard at Nordlys, backed by the reference letter"
+    },
+    {
+      "text": "Python for data preparation",
+      "category": "must",
+      "status": "met",
+      "evidence": "On the CV: meter data cleaning at Nordlys, confirmed in the form"
+    },
+    {
+      "text": "Azure Data Factory",
+      "category": "must",
+      "status": "partial",
+      "evidence": "Cover letter states the DP-203 course, finishing in March"
+    },
+    {
+      "text": "Three years as an analyst",
+      "category": "experience",
+      "status": "met",
+      "evidence": "Four years at Nordlys Kraft as analyst"
+    },
+    {
+      "text": "Background from the energy sector",
+      "category": "experience",
+      "status": "met",
+      "evidence": "Nordlys Kraft is a power retailer"
+    },
+    {
+      "text": "Experience presenting to management",
+      "category": "nice",
+      "status": "missing",
+      "evidence": "No source mentions presentations"
+    },
+    {
+      "text": "dbt",
+      "category": "nice",
+      "status": "missing",
+      "evidence": "No source mentions dbt"
+    },
+    {
+      "text": "Bachelor's degree in a quantitative field",
+      "category": "education",
+      "status": "met",
+      "evidence": "BSc Economics, diploma attached"
+    },
+    {
+      "text": "Norwegian, written and spoken",
+      "category": "language",
+      "status": "partial",
+      "evidence": "Norskprøve B2 attached; the posting asks for fluent Norwegian"
+    },
+    {
+      "text": "English, working level",
+      "category": "language",
+      "status": "met",
+      "evidence": "Degree taught in English"
+    }
+  ],
+  "keywords": [
+    {
+      "term": "SQL",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "Power BI",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "Python",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "Azure Data Factory",
+      "importance": "high",
+      "found": false
+    },
+    {
+      "term": "Data Analyst",
+      "importance": "high",
+      "found": true
+    },
+    {
+      "term": "dashboard",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "reporting",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "data quality",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "Excel",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "dbt",
+      "importance": "normal",
+      "found": false
+    },
+    {
+      "term": "forecasting",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "energy market",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "ETL",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "KPI",
+      "importance": "normal",
+      "found": true
+    },
+    {
+      "term": "stakeholders",
+      "importance": "normal",
+      "found": true
+    }
+  ],
+  "ats_checks": [
+    {
+      "id": "file_format",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "text_layer",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "single_column",
+      "status": "pass",
+      "note": "One column; reads in order"
+    },
+    {
+      "id": "no_tables_graphics",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "standard_headings",
+      "status": "pass",
+      "note": "Experience, Education, Skills"
+    },
+    {
+      "id": "contact_in_body",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "date_format",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "reverse_chronological",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "title_alignment",
+      "status": "pass",
+      "note": ""
+    },
+    {
+      "id": "plain_characters",
+      "status": "pass",
+      "note": ""
+    }
+  ],
+  "contradictions": [],
+  "remove": [],
+  "add": [],
+  "rewrite": [],
+  "research": [],
+  "questions": [],
+  "top_fixes": [
+    "Azure Data Factory is still missing; the DP-203 course ends in March"
+  ],
+  "scores": {
+    "match": 78,
+    "match_band": "high",
+    "breakdown": [
+      {
+        "category": "must",
+        "weight": 50,
+        "pct": 88,
+        "count": 4,
+        "met": 3,
+        "partial": 1,
+        "missing": 0
+      },
+      {
+        "category": "experience",
+        "weight": 20,
+        "pct": 100,
+        "count": 2,
+        "met": 2,
+        "partial": 0,
+        "missing": 0
+      },
+      {
+        "category": "nice",
+        "weight": 15,
+        "pct": 0,
+        "count": 2,
+        "met": 0,
+        "partial": 0,
+        "missing": 2
+      },
+      {
+        "category": "education",
+        "weight": 10,
+        "pct": 100,
+        "count": 1,
+        "met": 1,
+        "partial": 0,
+        "missing": 0
+      },
+      {
+        "category": "language",
+        "weight": 5,
+        "pct": 75,
+        "count": 2,
+        "met": 1,
+        "partial": 1,
+        "missing": 0
+      }
+    ],
+    "keyword_coverage": 85,
+    "keywords_found": 13,
+    "keywords_total": 15,
+    "ats": 91,
+    "ats_band": "high",
+    "ats_unreadable": false,
+    "checks_passed": 10
+  },
+  "previous_scores": {
+    "match": 59,
+    "ats": 53,
+    "keyword_coverage": 45,
+    "contradictions": 2
+  }
+}

@@ -81,11 +81,11 @@ Sign-off
 Name
 ```
 
-- One page; word count by the chosen tone (`writing-rules.md`).
+- One page; word count and voice by the chosen tone (`writing-rules.md`). The default is friendly and conversational.
 - Do not repeat the CV. Pick the two facts that matter most and say what they mean for this employer.
 - Use the posting's reference number in the heading when it has one.
-- Salutation and sign-off: English "Dear <name>," / "Kind regards,"; Norwegian "Hei <fornavn>," / "Med vennlig hilsen". If no contact is named, address the team or department named in the posting.
-- End on the last piece of content. No sentence about hoping to hear back.
+- Salutation and sign-off by tone. Friendly (default): "Hi Kari," / "Best,"; "Hei Kari," / "Hilsen". Neutral or brief: "Dear Kari Hansen," / "Kind regards,"; "Hei Kari," / "Med vennlig hilsen". Formal: "Dear Ms Hansen," / "Yours sincerely,"; "Hei Kari Hansen," / "Med vennlig hilsen". If no contact is named, address the team or department named in the posting.
+- End on the last piece of content. No sentence about hoping to hear back and no summing-up line.
 
 ## Norwegian conventions
 

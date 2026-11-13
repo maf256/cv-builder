@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV analysis</title>
+<style>
+:root {
+  --bg: #f6f6f3; --surface: #ffffff; --ink: #17181c; --muted: #5d616b; --line: #e1e1dc;
+  --accent: #2f4a8a; --accent-soft: #e8edf8;
+  --good: #1f7a4d; --good-soft: #e3f3ea;
+  --warn: #9a6200; --warn-soft: #fbf0d9;
+  --bad: #b3312b; --bad-soft: #fbe6e4;
+  --track: #e6e6e1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131417; --surface: #1c1e23; --ink: #ecedf0; --muted: #a2a7b3; --line: #30333b;
+    --accent: #9db4ee; --accent-soft: #252c40;
+    --good: #6fd09b; --good-soft: #1b3327;
+    --warn: #e9b65a; --warn-soft: #3a2e14;
+    --bad: #f08d86; --bad-soft: #3f211f;
+    --track: #2c2f37;
+  }
+}
+html.embed {
+  --bg: transparent; --surface: var(--card, #ffffff); --ink: var(--foreground, #17181c);
+  --muted: var(--muted-foreground, #5d616b); --line: var(--border, #e1e1dc);
+  --accent: var(--primary, #2f4a8a); --accent-soft: color-mix(in srgb, var(--primary, #2f4a8a) 14%, transparent);
+  --good: var(--success, #1f7a4d); --good-soft: color-mix(in srgb, var(--success, #1f7a4d) 16%, transparent);
+  --warn: var(--warning, #9a6200); --warn-soft: color-mix(in srgb, var(--warning, #9a6200) 16%, transparent);
+  --bad: var(--destructive, #b3312b); --bad-soft: color-mix(in srgb, var(--destructive, #b3312b) 16%, transparent);
+  --track: color-mix(in srgb, var(--foreground, #888888) 14%, transparent);
+}
+html.embed body { background: transparent; font-family: var(--font-sans, inherit); font-size: 14px; }
+html.embed main { max-width: none; padding: 4px 0 8px; }
+html.embed h1 { font-size: 21px; }
+html.embed .summary { font-size: 15.5px; }
+html.embed .tiles { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+html.embed .tile { padding: 12px; gap: 4px; }
+html.embed .ring { width: 76px; height: 76px; }
+html.embed .ring .num { font-size: 22px; }
+html.embed .tile .big { font-size: 30px; }
+html.embed section, html.embed details.fold { padding: 14px 16px; margin-top: 10px; }
+html.embed details.fold { padding: 10px 16px; }
+html.embed .cols { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.delta { font-size: 12.5px; font-weight: 600; }
+.delta.good { color: var(--good); } .delta.bad { color: var(--bad); } .delta.neutral { color: var(--muted); }
+html.embed .q { padding: 8px 0; }
+html.embed .q .text { margin-bottom: 6px; }
+html.embed .q .opts { margin-bottom: 6px; gap: 4px; }
+html.embed .q label.opt { padding: 3px 8px; font-size: 13px; }
+html.embed .q input[type=text] { padding: 4px 8px; font-size: 13px; }
+html.embed .form-intro { margin: 0 0 6px; }
+@media (max-width: 520px) {
+  html.embed .tiles { grid-template-columns: repeat(2, 1fr); }
+  html.embed .cols { grid-template-columns: 1fr; }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 80px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 4px; letter-spacing: -.01em; }
+h2 { font-size: 18px; margin: 0 0 14px; }
+h3 { font-size: 14px; margin: 0 0 8px; }
+p { margin: 0 0 10px; }
+a { color: var(--accent); }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.sub { color: var(--muted); margin: 0 0 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 18px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); font-size: 13px; color: var(--muted);
+}
+.summary { font-size: 17px; line-height: 1.45; max-width: 70ch; margin-bottom: 10px; font-weight: 600; }
+.fixes { margin: 0 0 20px; padding-left: 22px; max-width: 70ch; }
+.fixes li { margin-bottom: 3px; }
+section, details.fold { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 16px; }
+details.fold { padding: 14px 22px; color: var(--ink); font-size: 15px; }
+details.fold[open] { padding-bottom: 22px; }
+details.fold > summary { font-size: 16px; font-weight: 700; list-style: none; cursor: pointer; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "▸ "; color: var(--muted); }
+details.fold[open] > summary::before { content: "▾ "; }
+details.fold[open] > summary { margin-bottom: 14px; }
+.count { color: var(--muted); font-weight: 400; }
+.empty { color: var(--muted); margin: 0; }
+
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.tile .label { font-size: 13px; color: var(--muted); font-weight: 600; }
+.tile .big { font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile .big small { font-size: 16px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.tile .note { font-size: 13px; color: var(--muted); }
+.ring { position: relative; width: 104px; height: 104px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 10; }
+.ring .bg { stroke: var(--track); }
+.ring .fg { stroke-linecap: round; }
+.ring .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 999px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+.pill.neutral { background: var(--accent-soft); color: var(--accent); }
+.good-stroke { stroke: var(--good); } .warn-stroke { stroke: var(--warn); } .bad-stroke { stroke: var(--bad); }
+.good-fill { background: var(--good); } .warn-fill { background: var(--warn); } .bad-fill { background: var(--bad); }
+
+.bars { display: grid; gap: 14px; }
+.bar-row { display: grid; grid-template-columns: 190px 1fr 52px; gap: 12px; align-items: center; }
+.bar-row .name { font-weight: 600; }
+.bar-row .name span { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); }
+.bar { height: 10px; border-radius: 999px; background: var(--track); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 999px; }
+.bar-row .pct { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; }
+th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; padding: 0 12px 8px 0; }
+td { padding: 10px 12px 10px 0; border-top: 1px solid var(--line); vertical-align: top; }
+td.evidence { color: var(--muted); }
+tr.group td { border-top: 0; padding: 18px 0 6px; font-weight: 700; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.kw { padding: 3px 10px; border-radius: 6px; font-size: 13px; border: 1px solid var(--line); }
+.kw.found { background: var(--good-soft); color: var(--good); border-color: transparent; }
+.kw.missing { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.kw.high { font-weight: 700; }
+.legend { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+.checks { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+.check { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 0; border-top: 1px solid var(--line); align-items: start; align-content: start; }
+.check .what { font-weight: 600; }
+.check .why { grid-column: 1 / -1; color: var(--muted); font-size: 13.5px; }
+
+.cards { display: grid; gap: 10px; }
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.card .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+.card .head strong { font-size: 15px; }
+.card p { margin: 0; color: var(--muted); }
+.card .src { margin-top: 8px; font-size: 12.5px; }
+
+.cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cols li { border-left: 3px solid var(--line); padding-left: 10px; }
+.cols li.rm { border-color: var(--bad); } .cols li.ad { border-color: var(--good); } .cols li.rw { border-color: var(--warn); }
+.cols li span { display: block; color: var(--muted); font-size: 13.5px; }
+.cols li em { font-style: normal; font-size: 12px; color: var(--warn); font-weight: 600; }
+
+.research { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.research li span { display: block; color: var(--muted); font-size: 13.5px; }
+
+.form-intro { color: var(--muted); max-width: 70ch; }
+.q { border-top: 1px solid var(--line); padding: 12px 0; }
+.q .opts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: center; }
+.q .opts input[type=text] { flex: 1 1 200px; width: auto; min-width: 160px; }
+.q .text { font-weight: 600; font-size: 15px; margin: 0 0 8px; }
+.q label.opt { display: flex; gap: 8px; align-items: flex-start; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 14px; }
+.q label.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.q label.opt input { margin-top: 3px; accent-color: var(--accent); }
+.q label.opt b { min-width: 16px; }
+.q .rec { font-size: 12px; color: var(--accent); font-weight: 600; margin-left: 6px; white-space: nowrap; }
+.q input[type=text], #answers-out {
+  display: block; width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--ink); font: inherit; resize: vertical;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0 12px; }
+button {
+  font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--accent);
+  background: var(--accent); color: var(--surface); cursor: pointer;
+}
+button.ghost { background: transparent; color: var(--accent); }
+#copied { color: var(--good); font-weight: 600; }
+#answers-out.hide { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+#answers-out { height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+details:not(.fold) { margin-top: 16px; color: var(--muted); font-size: 13.5px; }
+details:not(.fold) summary { cursor: pointer; font-weight: 600; }
+details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
+
+@media (max-width: 860px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+  .cols, .checks { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 1fr 52px; }
+  .bar-row .bar { grid-column: 1 / -1; grid-row: 2; }
+}
+@media (max-width: 460px) { .tiles { grid-template-columns: 1fr; } }
+@media print {
+  body { background: #fff; } section, .tile { break-inside: avoid; }
+  #form-section .actions, #answers-out { display: none; }
+}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script id="cv-data" type="application/json">{"meta": {"ui_lang": "en", "output_langs": ["en", "no"], "candidate": "Sam Example", "role": "Data Analyst", "company": "Acme Energi AS", "posting_url": "https://example.com/jobs/data-analyst", "date": "2026-01-22", "sources": ["cv-2025.pdf", "bachelor-diploma.pdf", "norskprove-b2.pdf", "reference-nordlys.pdf"], "mode": "reload"}, "summary": "Match up 19 points; Power BI and the Nordlys end date are fixed, Azure Data Factory is the one gap left.", "requirements": [{"text": "SQL for reporting and analysis", "category": "must", "status": "met", "evidence": "Nordlys Kraft 2021–2025: wrote the monthly consumption reports in SQL"}, {"text": "Power BI dashboards", "category": "must", "status": "met", "evidence": "On the CV: sales dashboard at Nordlys, backed by the reference letter"}, {"text": "Python for data preparation", "category": "must", "status": "met", "evidence": "On the CV: meter data cleaning at Nordlys, confirmed in the form"}, {"text": "Azure Data Factory", "category": "must", "status": "partial", "evidence": "Cover letter states the DP-203 course, finishing in March"}, {"text": "Three years as an analyst", "category": "experience", "status": "met", "evidence": "Four years at Nordlys Kraft as analyst"}, {"text": "Background from the energy sector", "category": "experience", "status": "met", "evidence": "Nordlys Kraft is a power retailer"}, {"text": "Experience presenting to management", "category": "nice", "status": "missing", "evidence": "No source mentions presentations"}, {"text": "dbt", "category": "nice", "status": "missing", "evidence": "No source mentions dbt"}, {"text": "Bachelor's degree in a quantitative field", "category": "education", "status": "met", "evidence": "BSc Economics, diploma attached"}, {"text": "Norwegian, written and spoken", "category": "language", "status": "partial", "evidence": "Norskprøve B2 attached; the posting asks for fluent Norwegian"}, {"text": "English, working level", "category": "language", "status": "met", "evidence": "Degree taught in English"}], "keywords": [{"term": "SQL", "importance": "high", "found": true}, {"term": "Power BI", "importance": "high", "found": true}, {"term": "Python", "importance": "high", "found": true}, {"term": "Azure Data Factory", "importance": "high", "found": false}, {"term": "Data Analyst", "importance": "high", "found": true}, {"term": "dashboard", "importance": "normal", "found": true}, {"term": "reporting", "importance": "normal", "found": true}, {"term": "data quality", "importance": "normal", "found": true}, {"term": "Excel", "importance": "normal", "found": true}, {"term": "dbt", "importance": "normal", "found": false}, {"term": "forecasting", "importance": "normal", "found": true}, {"term": "energy market", "importance": "normal", "found": true}, {"term": "ETL", "importance": "normal", "found": true}, {"term": "KPI", "importance": "normal", "found": true}, {"term": "stakeholders", "importance": "normal", "found": true}], "ats_checks": [{"id": "file_format", "status": "pass", "note": ""}, {"id": "text_layer", "status": "pass", "note": ""}, {"id": "single_column", "status": "pass", "note": "One column; reads in order"}, {"id": "no_tables_graphics", "status": "pass", "note": ""}, {"id": "standard_headings", "status": "pass", "note": "Experience, Education, Skills"}, {"id": "contact_in_body", "status": "pass", "note": ""}, {"id": "date_format", "status": "pass", "note": ""}, {"id": "reverse_chronological", "status": "pass", "note": ""}, {"id": "title_alignment", "status": "pass", "note": ""}, {"id": "plain_characters", "status": "pass", "note": ""}], "contradictions": [], "remove": [], "add": [], "rewrite": [], "research": [], "questions": [], "top_fixes": ["Azure Data Factory is still missing; the DP-203 course ends in March"], "scores": {"match": 78, "match_band": "high", "breakdown": [{"category": "must", "weight": 50, "pct": 88, "count": 4, "met": 3, "partial": 1, "missing": 0}, {"category": "experience", "weight": 20, "pct": 100, "count": 2, "met": 2, "partial": 0, "missing": 0}, {"category": "nice", "weight": 15, "pct": 0, "count": 2, "met": 0, "partial": 0, "missing": 2}, {"category": "education", "weight": 10, "pct": 100, "count": 1, "met": 1, "partial": 0, "missing": 0}, {"category": "language", "weight": 5, "pct": 75, "count": 2, "met": 1, "partial": 1, "missing": 0}], "keyword_coverage": 85, "keywords_found": 13, "keywords_total": 15, "ats": 91, "ats_band": "high", "ats_unreadable": false, "checks_passed": 10}, "previous_scores": {"match": 59, "ats": 53, "keyword_coverage": 45, "contradictions": 2}}</script>
+<script>
+(function () {
+  "use strict";
+  var raw = document.getElementById("cv-data").textContent;
+  var app = document.getElementById("app");
+  var EMBED = /*__EMBED__*/true;
+  if (EMBED) document.documentElement.classList.add("embed");
+  var D;
+  try { D = JSON.parse(raw); } catch (e) {
+    app.textContent = "This is the report template. Run scripts/build_report.py to fill it with data.";
+    return;
+  }
+
+  var T = {
+    en: {
+      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents", fixes: "Fix first", reloadTitle: "CV reload", sincePhase1: "since phase one", posting: "Job posting",
+      langs: { en: "English", no: "Norwegian" },
+      match: "Match score", ats: "ATS estimate", keywords: "Keyword coverage", contradictions: "Contradictions",
+      of100: "/100",
+      matchBand: { high: "Strong match", mid: "Partial match", low: "Weak match" },
+      atsBand: { high: "Likely to pass", mid: "At risk", low: "Likely to be filtered out" },
+      unreadable: "The file has no readable text layer",
+      found: "found", ofKeywords: "of {n} keywords in the CV", highSev: "{n} high severity", none: "None found",
+      breakdown: "Score by category", weight: "weight", reqs: "requirements",
+      cat: { must: "Required skills", experience: "Experience", nice: "Preferred", education: "Education and certificates", language: "Languages" },
+      requirements: "Requirements in the posting", requirement: "Requirement", status: "Status", evidence: "Evidence",
+      st: { met: "Met", partial: "Partial", missing: "Missing", pass: "Pass", warn: "Check", fail: "Fail", high: "High", low: "Low" },
+      kwTitle: "Keywords", kwFound: "In the CV", kwMissing: "Not in the CV", kwLegend: "Bold terms weigh double: they appear in the title or the core requirements.",
+      atsTitle: "ATS checks", checksPassed: "{n} of 10 passed",
+      checks: {
+        file_format: "File format", text_layer: "Selectable text", single_column: "Single column",
+        no_tables_graphics: "No tables or graphics", standard_headings: "Standard section headings",
+        contact_in_body: "Contact details in the body", date_format: "Consistent dates",
+        reverse_chronological: "Newest first", title_alignment: "Title matches the posting", plain_characters: "Plain fonts and characters"
+      },
+      contraTitle: "Contradictions and gaps", contraNone: "No contradictions between the sources.", sourcesLabel: "Sources",
+      changes: "Proposed changes", remove: "Remove", add: "Add", rewrite: "Rewrite", confirm: "Needs your confirmation", nothing: "Nothing proposed.",
+      research: "Research for the writing phase", use: "Use", source: "Source", researchNone: "No findings recorded.",
+      form: "Your answers",
+      formIntro: "Nothing is rewritten yet. Pick a letter or write your own, press Copy answers, paste it in the chat.",
+      recommended: "Recommended", own: "Or write your own answer", ownOnly: "Your answer",
+      copy: "Copy answers", reset: "Clear", copied: "Copied. Paste it into the chat.", copyFail: "Select the text below and copy it.",
+      answersHead: "CV Builder answers", ownTag: "[own answer]", unanswered: "(no answer)",
+      how: "How the scores are calculated",
+      how1: "Match score: each requirement counts 1 if met, 0.5 if partial, 0 if missing. Categories are averaged and weighted: required skills 50, experience 20, preferred 15, education 10, languages 5. 75 or more is a strong match, 50 to 74 partial, below 50 weak.",
+      how2: "ATS estimate: 60% keyword coverage (bold keywords count double) and 40% the ten format checks. 75 or more is likely to pass, 50 to 74 at risk, below 50 likely to be filtered out. ATS products differ, and most rank applications for a recruiter instead of rejecting them, so treat this as an estimate."
+    },
+    no: {
+      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", reloadTitle: "Ny analyse", sincePhase1: "siden fase 1", posting: "Stillingsannonse",
+      langs: { en: "Engelsk", no: "Norsk" },
+      match: "Match", ats: "ATS-anslag", keywords: "Nøkkelord", contradictions: "Motsigelser",
+      of100: "/100",
+      matchBand: { high: "God match", mid: "Delvis match", low: "Svak match" },
+      atsBand: { high: "Går trolig gjennom", mid: "Usikkert", low: "Blir trolig filtrert bort" },
+      unreadable: "Filen har ikke lesbar tekst",
+      found: "funnet", ofKeywords: "av {n} nøkkelord finnes i CV-en", highSev: "{n} alvorlige", none: "Ingen funnet",
+      breakdown: "Poeng per kategori", weight: "vekt", reqs: "krav",
+      cat: { must: "Påkrevd kompetanse", experience: "Erfaring", nice: "Ønsket", education: "Utdanning og sertifikater", language: "Språk" },
+      requirements: "Krav i annonsen", requirement: "Krav", status: "Status", evidence: "Grunnlag",
+      st: { met: "Oppfylt", partial: "Delvis", missing: "Mangler", pass: "OK", warn: "Sjekk", fail: "Feil", high: "Alvorlig", low: "Mindre" },
+      kwTitle: "Nøkkelord", kwFound: "Finnes i CV-en", kwMissing: "Mangler i CV-en", kwLegend: "Ord i fet skrift teller dobbelt: de står i tittelen eller i hovedkravene.",
+      atsTitle: "ATS-kontroll", checksPassed: "{n} av 10 bestått",
+      checks: {
+        file_format: "Filformat", text_layer: "Markerbar tekst", single_column: "Én kolonne",
+        no_tables_graphics: "Ingen tabeller eller grafikk", standard_headings: "Vanlige overskrifter",
+        contact_in_body: "Kontaktinfo i brødteksten", date_format: "Like datoformat",
+        reverse_chronological: "Nyeste først", title_alignment: "Tittel samsvarer med annonsen", plain_characters: "Vanlige fonter og tegn"
+      },
+      contraTitle: "Motsigelser og hull", contraNone: "Ingen motsigelser mellom kildene.", sourcesLabel: "Kilder",
+      changes: "Foreslåtte endringer", remove: "Fjern", add: "Legg til", rewrite: "Skriv om", confirm: "Må bekreftes av deg", nothing: "Ingen forslag.",
+      research: "Bakgrunn til skrivefasen", use: "Brukes i", source: "Kilde", researchNone: "Ingen funn registrert.",
+      form: "Dine svar",
+      formIntro: "Ingenting er skrevet om ennå. Velg en bokstav eller skriv eget svar, trykk Kopier svar, lim inn i chatten.",
+      recommended: "Anbefalt", own: "Eller skriv ditt eget svar", ownOnly: "Ditt svar",
+      copy: "Kopier svar", reset: "Tøm", copied: "Kopiert. Lim det inn i chatten.", copyFail: "Marker teksten under og kopier den.",
+      answersHead: "Svar til CV Builder", ownTag: "[eget svar]", unanswered: "(ikke besvart)",
+      how: "Slik regnes poengene ut",
+      how1: "Match: hvert krav teller 1 hvis det er oppfylt, 0,5 hvis delvis og 0 hvis det mangler. Kategoriene vektes: påkrevd kompetanse 50, erfaring 20, ønsket 15, utdanning 10, språk 5. 75 eller mer er god match, 50 til 74 delvis, under 50 svak.",
+      how2: "ATS-anslag: 60 % nøkkelorddekning (ord i fet skrift teller dobbelt) og 40 % de ti formatkontrollene. 75 eller mer går trolig gjennom, 50 til 74 er usikkert, under 50 blir trolig filtrert bort. Systemene er ulike, og de fleste rangerer søknader for en rekrutterer i stedet for å avvise dem. Tallet er et anslag."
+    }
+  };
+
+  var t = T[D.meta.ui_lang] || T.en;
+  var RELOAD = D.meta.mode === "reload";
+  var PS = D.previous_scores || null;
+  var S = D.scores;
+  var TONE = { high: "good", mid: "warn", low: "bad", met: "good", partial: "warn", missing: "bad", pass: "good", warn: "warn", fail: "bad" };
+  var MARK = { good: "✓", warn: "!", bad: "✕" };
+  document.documentElement.lang = D.meta.ui_lang === "no" ? "nb" : "en";
+  document.title = (RELOAD ? t.reloadTitle : t.title) + ": " + D.meta.role + " " + t.at + " " + D.meta.company;
+
+  function el(tag, attrs) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") node.className = attrs[k];
+      else if (k === "text") node.textContent = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var child = arguments[i];
+      if (child == null || child === false) continue;
+      node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
+    }
+    return node;
+  }
+  function delta(now, before, lowerBetter) {
+    if (!PS || before == null) return null;
+    var d = now - before, good = lowerBetter ? d < 0 : d > 0;
+    return el("div", { class: "delta " + (d === 0 ? "neutral" : good ? "good" : "bad"),
+      text: (d > 0 ? "+" : d < 0 ? "-" : "") + Math.abs(d) + " " + t.sincePhase1 });
+  }
+  function pill(tone, label) { return el("span", { class: "pill " + tone }, (MARK[tone] ? MARK[tone] + " " : "") + label); }
+  function section(title, count, fold) {
+    var s = fold ? el("details", { class: "fold" }) : el("section");
+    var h = el(fold ? "summary" : "h2", null, title);
+    if (count != null) h.appendChild(el("span", { class: "count", text: "  " + count }));
+    s.appendChild(h);
+    app.appendChild(s);
+    return s;
+  }
+  function ring(value, tone) {
+    var r = 46, c = 2 * Math.PI * r;
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 104 104");
+    svg.setAttribute("aria-hidden", "true");
+    [["bg", c], ["fg " + tone + "-stroke", c * value / 100]].forEach(function (spec) {
+      var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("cx", 52); circle.setAttribute("cy", 52); circle.setAttribute("r", r);
+      circle.setAttribute("class", spec[0]);
+      circle.setAttribute("stroke-dasharray", spec[1] + " " + c);
+      svg.appendChild(circle);
+    });
+    return el("div", { class: "ring" }, svg, el("div", { class: "num", text: String(value) }));
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : null; }
+  function link(u, label) {
+    return safeUrl(u) ? el("a", { href: u, target: "_blank", rel: "noopener", text: label || u }) : null;
+  }
+
+  // Header
+  app.appendChild(el("div", { class: "eyebrow", text: RELOAD ? t.reloadTitle : t.title }));
+  app.appendChild(el("h1", null, D.meta.role + " " + t.at + " " + D.meta.company));
+  app.appendChild(el("p", { class: "sub", text: D.meta.candidate + " · " + D.meta.date }));
+  var meta = el("div", { class: "meta" });
+  meta.appendChild(el("span", { class: "chip" }, t.writes + ": " + D.meta.output_langs.map(function (l) { return t.langs[l]; }).join(" + ")));
+  var posting = link(D.meta.posting_url, t.posting + " ↗");
+  if (posting) meta.appendChild(el("span", { class: "chip" }, posting));
+  app.appendChild(meta);
+  app.appendChild(el("p", { class: "summary", text: D.summary }));
+  if (D.top_fixes.length) {
+    var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
+    D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
+    app.appendChild(fixes);
+  }
+
+  // Tiles
+  var highCount = D.contradictions.filter(function (c) { return c.severity === "high"; }).length;
+  var matchTone = TONE[S.match_band], atsTone = TONE[S.ats_band];
+  app.appendChild(el("div", { class: "tiles" },
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.match }), ring(S.match, matchTone), pill(matchTone, t.matchBand[S.match_band]), delta(S.match, PS && PS.match)),
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.ats }), ring(S.ats, atsTone), pill(atsTone, t.atsBand[S.ats_band]),
+      S.ats_unreadable ? el("div", { class: "note", text: t.unreadable }) : null,
+      delta(S.ats, PS && PS.ats)),
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.keywords }),
+      el("div", { class: "big" }, String(S.keyword_coverage), el("small", { text: " %" })),
+      el("div", { class: "note", text: S.keywords_found + " " + t.ofKeywords.replace("{n}", S.keywords_total) }),
+      delta(S.keyword_coverage, PS && PS.keyword_coverage)),
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.contradictions }),
+      el("div", { class: "big", text: String(D.contradictions.length) }),
+      D.contradictions.length
+        ? (highCount ? pill("bad", t.highSev.replace("{n}", highCount)) : el("div", { class: "note", text: t.highSev.replace("{n}", 0) }))
+        : pill("good", t.none),
+      delta(D.contradictions.length, PS && PS.contradictions, true))
+  ));
+
+  // Breakdown
+  var sec = section(t.breakdown, null, true);
+  var bars = el("div", { class: "bars" });
+  S.breakdown.forEach(function (b) {
+    var tone = b.pct >= 75 ? "good" : b.pct >= 50 ? "warn" : "bad";
+    var fill = el("i", { class: tone + "-fill" });
+    fill.style.width = Math.max(b.pct, 2) + "%";
+    bars.appendChild(el("div", { class: "bar-row" },
+      el("div", { class: "name" }, t.cat[b.category],
+        el("span", { text: t.weight + " " + b.weight + " · " + b.met + "/" + b.count + " " + t.st.met.toLowerCase() })),
+      el("div", { class: "bar" }, fill),
+      el("div", { class: "pct", text: b.pct + " %" })));
+  });
+  sec.appendChild(bars);
+
+  // Requirements
+  sec = section(t.requirements, D.requirements.length, true);
+  var tbody = el("tbody");
+  ["must", "experience", "nice", "education", "language"].forEach(function (cat) {
+    var rows = D.requirements.filter(function (r) { return r.category === cat; });
+    if (!rows.length) return;
+    tbody.appendChild(el("tr", { class: "group" }, el("td", { colspan: "3", text: t.cat[cat] })));
+    rows.forEach(function (r) {
+      tbody.appendChild(el("tr", null,
+        el("td", { text: r.text }),
+        el("td", null, pill(TONE[r.status], t.st[r.status])),
+        el("td", { class: "evidence", text: r.evidence })));
+    });
+  });
+  sec.appendChild(el("div", { class: "table-wrap" }, el("table", null,
+    el("thead", null, el("tr", null, el("th", { text: t.requirement }), el("th", { text: t.status }), el("th", { text: t.evidence }))),
+    tbody)));
+
+  // Keywords
+  sec = section(t.kwTitle, S.keywords_found + "/" + S.keywords_total, true);
+  [["found", t.kwFound, true], ["missing", t.kwMissing, false]].forEach(function (g) {
+    var list = D.keywords.filter(function (k) { return k.found === g[2]; });
+    sec.appendChild(el("h3", null, g[1] + " (" + list.length + ")"));
+    var chips = el("div", { class: "chips" });
+    list.forEach(function (k) {
+      chips.appendChild(el("span", { class: "kw " + g[0] + (k.importance === "high" ? " high" : ""), text: k.term }));
+    });
+    if (!list.length) chips.appendChild(el("span", { class: "empty", text: "–" }));
+    sec.appendChild(chips);
+  });
+  sec.appendChild(el("p", { class: "legend", text: t.kwLegend }));
+
+  // ATS checks
+  sec = section(t.atsTitle, t.checksPassed.replace("{n}", S.checks_passed), true);
+  var checks = el("div", { class: "checks" });
+  D.ats_checks.forEach(function (c) {
+    checks.appendChild(el("div", { class: "check" },
+      el("div", { class: "what", text: t.checks[c.id] || c.id }),
+      pill(TONE[c.status], t.st[c.status]),
+      c.note ? el("div", { class: "why", text: c.note }) : null));
+  });
+  sec.appendChild(checks);
+
+  // Contradictions
+  sec = section(t.contraTitle, D.contradictions.length, EMBED);
+  if (!D.contradictions.length) sec.appendChild(el("p", { class: "empty", text: t.contraNone }));
+  else {
+    var cards = el("div", { class: "cards" });
+    D.contradictions.forEach(function (c) {
+      cards.appendChild(el("div", { class: "card" },
+        el("div", { class: "head" }, el("strong", { text: c.title }), pill(c.severity === "high" ? "bad" : "warn", t.st[c.severity])),
+        el("p", { text: c.detail }),
+        (c.sources || []).length ? el("p", { class: "src", text: t.sourcesLabel + ": " + c.sources.join(", ") }) : null));
+    });
+    sec.appendChild(cards);
+  }
+
+  // Proposed changes
+  sec = section(t.changes, null, EMBED);
+  var cols = el("div", { class: "cols" });
+  [["remove", t.remove, "rm"], ["add", t.add, "ad"], ["rewrite", t.rewrite, "rw"]].forEach(function (g) {
+    var col = el("div", null, el("h3", null, g[1] + " (" + D[g[0]].length + ")"));
+    if (!D[g[0]].length) col.appendChild(el("p", { class: "empty", text: t.nothing }));
+    else {
+      var ul = el("ul");
+      D[g[0]].forEach(function (it) {
+        ul.appendChild(el("li", { class: g[2] }, it.item, el("span", { text: it.reason }),
+          it.needs_confirmation ? el("em", { text: t.confirm }) : null));
+      });
+      col.appendChild(ul);
+    }
+    cols.appendChild(col);
+  });
+  sec.appendChild(cols);
+  if (RELOAD && !D.remove.length && !D.add.length && !D.rewrite.length) app.removeChild(sec);
+
+  // Research
+  sec = section(t.research, D.research.length, true);
+  if (!D.research.length) sec.appendChild(el("p", { class: "empty", text: t.researchNone }));
+  else {
+    var rl = el("ul", { class: "research" });
+    D.research.forEach(function (r) {
+      var src = link(r.source_url, t.source + " ↗");
+      rl.appendChild(el("li", null, r.finding,
+        r.use ? el("span", { text: t.use + ": " + r.use }) : null,
+        src ? el("span", null, src) : null));
+    });
+    sec.appendChild(rl);
+  }
+  if (RELOAD && !D.research.length) app.removeChild(sec);
+
+  // Form
+  function buildForm() {
+  sec = section(t.form, D.questions.length);
+  sec.id = "form-section";
+  sec.appendChild(el("p", { class: "form-intro", text: t.formIntro }));
+  var storeKey = "cv-builder:" + D.meta.company + ":" + D.meta.role + ":" + D.meta.date;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch (e) {}
+  var out = el("textarea", { id: "answers-out", class: "hide", readonly: "readonly", "aria-label": t.form });
+
+  D.questions.forEach(function (q, i) {
+    var box = el("div", { class: "q" });
+    box.dataset.id = q.id;
+    box.appendChild(el("div", { class: "text", text: (i + 1) + ". " + q.question }));
+    var prev = saved[q.id] || {};
+    var opts = el("div", { class: "opts" });
+    box.appendChild(opts);
+    (q.options || []).forEach(function (o) {
+      var input = el("input", { type: q.multi ? "checkbox" : "radio", name: "q-" + q.id, value: o.key });
+      if ((prev.keys || []).indexOf(o.key) !== -1) input.checked = true;
+      opts.appendChild(el("label", { class: "opt" }, input, el("b", { text: o.key }),
+        el("span", null, o.label, q.recommended === o.key ? el("span", { class: "rec", text: t.recommended }) : null)));
+    });
+    if (q.allow_custom !== false || !(q.options || []).length) {
+      var ta = el("input", { type: "text", placeholder: (q.options || []).length ? t.own : t.ownOnly, "aria-label": t.ownOnly });
+      ta.value = prev.text || "";
+      opts.appendChild(ta);
+    }
+    sec.appendChild(box);
+  });
+
+  function collect() {
+    var state = {}, lines = [t.answersHead + ": " + D.meta.role + " " + t.at + " " + D.meta.company, ""];
+    D.questions.forEach(function (q) {
+      var box = sec.querySelector('.q[data-id="' + q.id.replace(/"/g, "") + '"]');
+      var keys = Array.prototype.map.call(box.querySelectorAll("input:checked"), function (n) { return n.value; });
+      var ta = box.querySelector("input[type=text]");
+      var text = ta ? ta.value.trim() : "";
+      state[q.id] = { keys: keys, text: text };
+      var parts = [];
+      if (keys.length) parts.push(keys.map(function (k) {
+        var opt = q.options.filter(function (o) { return o.key === k; })[0];
+        return k + " (" + opt.label + ")";
+      }).join(", "));
+      if (text) parts.push(t.ownTag + " " + text);
+      lines.push(q.id + ": " + (parts.length ? parts.join(" | ") : t.unanswered));
+    });
+    out.value = lines.join("\n");
+    try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch (e) {}
+  }
+  sec.addEventListener("input", collect);
+  sec.addEventListener("change", collect);
+
+  var copied = el("span", { id: "copied", role: "status" });
+  var copyBtn = el("button", { type: "button", text: t.copy });
+  copyBtn.addEventListener("click", function () {
+    collect();
+    function done(ok) { copied.textContent = ok ? t.copied : t.copyFail; if (!ok) { out.className = ""; out.focus(); out.select(); } }
+    function legacy() { out.focus(); out.select(); var ok = false; try { ok = document.execCommand("copy"); } catch (e) {} done(ok); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(out.value).then(function () { done(true); }, legacy);
+    else legacy();
+  });
+  var resetBtn = el("button", { type: "button", class: "ghost", text: t.reset });
+  resetBtn.addEventListener("click", function () {
+    Array.prototype.forEach.call(sec.querySelectorAll(".q input"), function (n) { n.checked = false; n.value = n.type === "text" ? "" : n.value; });
+    copied.textContent = "";
+    collect();
+  });
+  sec.appendChild(el("div", { class: "actions" }, copyBtn, resetBtn, copied));
+  sec.appendChild(out);
+  collect();
+  }
+  if (D.questions.length) buildForm();
+
+  app.appendChild(el("details", null, el("summary", { text: t.how }), el("p", { text: t.how1 }), el("p", { text: t.how2 })));
+})();
+</script>
+</body>
+</html>

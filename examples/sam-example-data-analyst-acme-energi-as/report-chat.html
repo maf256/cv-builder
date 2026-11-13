@@ -44,6 +44,8 @@ html.embed .tile .big { font-size: 30px; }
 html.embed section, html.embed details.fold { padding: 14px 16px; margin-top: 10px; }
 html.embed details.fold { padding: 10px 16px; }
 html.embed .cols { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.delta { font-size: 12.5px; font-weight: 600; }
+.delta.good { color: var(--good); } .delta.bad { color: var(--bad); } .delta.neutral { color: var(--muted); }
 html.embed .q { padding: 8px 0; }
 html.embed .q .text { margin-bottom: 6px; }
 html.embed .q .opts { margin-bottom: 6px; gap: 4px; }
@@ -193,7 +195,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
 </head>
 <body>
 <main id="app"></main>
-<script id="cv-data" type="application/json">{"meta": {"ui_lang": "en", "output_langs": ["en", "no"], "candidate": "Sam Example", "role": "Data Analyst", "company": "Acme Energi AS", "posting_url": "https://example.com/jobs/data-analyst", "date": "2026-01-15", "sources": ["cv-2025.pdf", "bachelor-diploma.pdf", "norskprove-b2.pdf", "reference-nordlys.pdf"]}, "summary": "Strong on SQL and experience; Power BI is missing from the CV and the layout blocks ATS parsing.", "requirements": [{"text": "SQL for reporting and analysis", "category": "must", "status": "met", "evidence": "Nordlys Kraft 2021–2025: wrote the monthly consumption reports in SQL"}, {"text": "Power BI dashboards", "category": "must", "status": "partial", "evidence": "Not on the CV. The reference letter from Nordlys says Sam built the sales dashboard in Power BI"}, {"text": "Python for data preparation", "category": "must", "status": "partial", "evidence": "Listed under skills; no role or course shows it in use"}, {"text": "Azure Data Factory", "category": "must", "status": "missing", "evidence": "No source mentions Azure"}, {"text": "Three years as an analyst", "category": "experience", "status": "met", "evidence": "Four years at Nordlys Kraft as analyst"}, {"text": "Background from the energy sector", "category": "experience", "status": "met", "evidence": "Nordlys Kraft is a power retailer"}, {"text": "Experience presenting to management", "category": "nice", "status": "missing", "evidence": "No source mentions presentations"}, {"text": "dbt", "category": "nice", "status": "missing", "evidence": "No source mentions dbt"}, {"text": "Bachelor's degree in a quantitative field", "category": "education", "status": "met", "evidence": "BSc Economics, diploma attached"}, {"text": "Norwegian, written and spoken", "category": "language", "status": "partial", "evidence": "Norskprøve B2 attached; the posting asks for fluent Norwegian"}, {"text": "English, working level", "category": "language", "status": "met", "evidence": "Degree taught in English"}], "keywords": [{"term": "SQL", "importance": "high", "found": true}, {"term": "Power BI", "importance": "high", "found": false}, {"term": "Python", "importance": "high", "found": true}, {"term": "Azure Data Factory", "importance": "high", "found": false}, {"term": "Data Analyst", "importance": "high", "found": false}, {"term": "dashboard", "importance": "normal", "found": false}, {"term": "reporting", "importance": "normal", "found": true}, {"term": "data quality", "importance": "normal", "found": false}, {"term": "Excel", "importance": "normal", "found": true}, {"term": "dbt", "importance": "normal", "found": false}, {"term": "forecasting", "importance": "normal", "found": true}, {"term": "energy market", "importance": "normal", "found": true}, {"term": "ETL", "importance": "normal", "found": false}, {"term": "KPI", "importance": "normal", "found": true}, {"term": "stakeholders", "importance": "normal", "found": false}], "ats_checks": [{"id": "file_format", "status": "pass", "note": "Text-based PDF"}, {"id": "text_layer", "status": "pass", "note": "All text can be selected"}, {"id": "single_column", "status": "fail", "note": "Two columns; the skills sidebar is extracted into the middle of the work history"}, {"id": "no_tables_graphics", "status": "fail", "note": "Skill levels are drawn as bars and the contact details use icons"}, {"id": "standard_headings", "status": "warn", "note": "\"My journey\" should be \"Experience\""}, {"id": "contact_in_body", "status": "pass", "note": ""}, {"id": "date_format", "status": "warn", "note": "Mixes \"2021–2025\" and \"Aug 2019 – Jun 2021\""}, {"id": "reverse_chronological", "status": "pass", "note": ""}, {"id": "title_alignment", "status": "warn", "note": "The CV headline says \"Business Controller Assistant\"; the contract title at Nordlys was Analyst"}, {"id": "plain_characters", "status": "pass", "note": ""}], "contradictions": [{"title": "End date at Nordlys Kraft differs", "detail": "The CV says the role ended in June 2025. The reference letter says the last working day was 31 March 2025.", "sources": ["cv-2025.pdf", "reference-nordlys.pdf"], "severity": "high"}, {"title": "Seven months with nothing recorded", "detail": "Nothing is listed between the end of the degree in June 2020 and the start at Nordlys in February 2021.", "sources": ["cv-2025.pdf", "bachelor-diploma.pdf"], "severity": "low"}], "remove": [{"item": "Skill-level bars", "reason": "An ATS cannot read them, and a self-rating is not evidence"}, {"item": "Café job, 2016–2017", "reason": "Unrelated to the role and before the degree"}, {"item": "Hobbies section", "reason": "Takes five lines and answers nothing in the posting"}, {"item": "Upper secondary school", "reason": "The bachelor's degree makes it redundant"}], "add": [{"item": "Power BI sales dashboard at Nordlys", "reason": "The reference letter documents it and the posting requires Power BI", "needs_confirmation": false}, {"item": "Norskprøve B2 (2024)", "reason": "Attached but not on the CV; the posting requires Norwegian", "needs_confirmation": false}, {"item": "Where Python was used", "reason": "Python is only in the skills list; a role or project is needed to support it", "needs_confirmation": true}], "rewrite": [{"item": "Nordlys Kraft role description", "reason": "Lists duties without naming SQL, Power BI or the report recipients, all of which the sources document"}, {"item": "Headline", "reason": "Use the title held at Nordlys so it lines up with the posting's title"}], "research": [{"finding": "The analytics team reports on hourly consumption for 90,000 household customers", "use": "Cover letter, second paragraph: link to the consumption reports at Nordlys", "source_url": "https://example.com/about"}, {"finding": "The posting asks for the application in Norwegian and names Kari Hansen as contact", "use": "Salutation; send the Norwegian set", "source_url": "https://example.com/jobs/data-analyst"}], "questions": [{"id": "level_en", "question": "English level?", "options": [{"key": "A", "label": "B1: simple sentences"}, {"key": "B", "label": "B2: clear and direct"}, {"key": "C", "label": "C1: fluent"}, {"key": "D", "label": "C2: native-level"}], "multi": false, "allow_custom": true, "recommended": "C"}, {"id": "level_no", "question": "Norwegian level?", "options": [{"key": "A", "label": "B1: simple sentences"}, {"key": "B", "label": "B2: clear and direct"}, {"key": "C", "label": "C1: fluent"}, {"key": "D", "label": "C2: native-level"}], "multi": false, "allow_custom": true, "recommended": "B"}, {"id": "tone", "question": "Tone?", "options": [{"key": "A", "label": "Brief and factual"}, {"key": "B", "label": "Neutral"}, {"key": "C", "label": "Warm letter, factual CV"}, {"key": "D", "label": "Formal"}], "multi": false, "allow_custom": true, "recommended": "A"}, {"id": "remove", "question": "Remove these?", "options": [{"key": "A", "label": "Skill-level bars"}, {"key": "B", "label": "Café job, 2016–2017"}, {"key": "C", "label": "Hobbies section"}, {"key": "D", "label": "Upper secondary school"}], "multi": true, "allow_custom": true}, {"id": "missing", "question": "Anything missing from your documents?", "options": [{"key": "A", "label": "No"}], "multi": false, "allow_custom": true}, {"id": "motivation", "question": "Why this employer?", "options": [{"key": "A", "label": "More consumption data in the power market"}, {"key": "B", "label": "Larger team in my field"}, {"key": "C", "label": "Move from reporting to data engineering"}], "multi": true, "allow_custom": true}, {"id": "conflict_1", "question": "End date at Nordlys?", "options": [{"key": "A", "label": "31 Mar 2025 (reference letter)"}, {"key": "B", "label": "Jun 2025 (CV)"}], "multi": false, "allow_custom": true}, {"id": "gap_1", "question": "Azure Data Factory?", "options": [{"key": "A", "label": "Yes, details below"}, {"key": "B", "label": "Some exposure, details below"}, {"key": "C", "label": "No"}, {"key": "D", "label": "Learning it now, details below"}], "multi": false, "allow_custom": true}], "top_fixes": ["Add Power BI: the reference letter proves it", "Switch to one column and drop the skill bars", "Settle the Nordlys end date: CV and letter disagree"], "scores": {"match": 59, "match_band": "mid", "breakdown": [{"category": "must", "weight": 50, "pct": 50, "count": 4, "met": 1, "partial": 2, "missing": 1}, {"category": "experience", "weight": 20, "pct": 100, "count": 2, "met": 2, "partial": 0, "missing": 0}, {"category": "nice", "weight": 15, "pct": 0, "count": 2, "met": 0, "partial": 0, "missing": 2}, {"category": "education", "weight": 10, "pct": 100, "count": 1, "met": 1, "partial": 0, "missing": 0}, {"category": "language", "weight": 5, "pct": 75, "count": 2, "met": 1, "partial": 1, "missing": 0}], "keyword_coverage": 45, "keywords_found": 7, "keywords_total": 15, "ats": 53, "ats_band": "mid", "ats_unreadable": false, "checks_passed": 5}}</script>
+<script id="cv-data" type="application/json">{"meta": {"ui_lang": "en", "output_langs": ["en", "no"], "candidate": "Sam Example", "role": "Data Analyst", "company": "Acme Energi AS", "posting_url": "https://example.com/jobs/data-analyst", "date": "2026-01-15", "sources": ["cv-2025.pdf", "bachelor-diploma.pdf", "norskprove-b2.pdf", "reference-nordlys.pdf"]}, "summary": "Strong on SQL and experience; Power BI is missing from the CV and the layout blocks ATS parsing.", "requirements": [{"text": "SQL for reporting and analysis", "category": "must", "status": "met", "evidence": "Nordlys Kraft 2021–2025: wrote the monthly consumption reports in SQL"}, {"text": "Power BI dashboards", "category": "must", "status": "partial", "evidence": "Not on the CV. The reference letter from Nordlys says Sam built the sales dashboard in Power BI"}, {"text": "Python for data preparation", "category": "must", "status": "partial", "evidence": "Listed under skills; no role or course shows it in use"}, {"text": "Azure Data Factory", "category": "must", "status": "missing", "evidence": "No source mentions Azure"}, {"text": "Three years as an analyst", "category": "experience", "status": "met", "evidence": "Four years at Nordlys Kraft as analyst"}, {"text": "Background from the energy sector", "category": "experience", "status": "met", "evidence": "Nordlys Kraft is a power retailer"}, {"text": "Experience presenting to management", "category": "nice", "status": "missing", "evidence": "No source mentions presentations"}, {"text": "dbt", "category": "nice", "status": "missing", "evidence": "No source mentions dbt"}, {"text": "Bachelor's degree in a quantitative field", "category": "education", "status": "met", "evidence": "BSc Economics, diploma attached"}, {"text": "Norwegian, written and spoken", "category": "language", "status": "partial", "evidence": "Norskprøve B2 attached; the posting asks for fluent Norwegian"}, {"text": "English, working level", "category": "language", "status": "met", "evidence": "Degree taught in English"}], "keywords": [{"term": "SQL", "importance": "high", "found": true}, {"term": "Power BI", "importance": "high", "found": false}, {"term": "Python", "importance": "high", "found": true}, {"term": "Azure Data Factory", "importance": "high", "found": false}, {"term": "Data Analyst", "importance": "high", "found": false}, {"term": "dashboard", "importance": "normal", "found": false}, {"term": "reporting", "importance": "normal", "found": true}, {"term": "data quality", "importance": "normal", "found": false}, {"term": "Excel", "importance": "normal", "found": true}, {"term": "dbt", "importance": "normal", "found": false}, {"term": "forecasting", "importance": "normal", "found": true}, {"term": "energy market", "importance": "normal", "found": true}, {"term": "ETL", "importance": "normal", "found": false}, {"term": "KPI", "importance": "normal", "found": true}, {"term": "stakeholders", "importance": "normal", "found": false}], "ats_checks": [{"id": "file_format", "status": "pass", "note": "Text-based PDF"}, {"id": "text_layer", "status": "pass", "note": "All text can be selected"}, {"id": "single_column", "status": "fail", "note": "Two columns; the skills sidebar is extracted into the middle of the work history"}, {"id": "no_tables_graphics", "status": "fail", "note": "Skill levels are drawn as bars and the contact details use icons"}, {"id": "standard_headings", "status": "warn", "note": "\"My journey\" should be \"Experience\""}, {"id": "contact_in_body", "status": "pass", "note": ""}, {"id": "date_format", "status": "warn", "note": "Mixes \"2021–2025\" and \"Aug 2019 to Jun 2021\""}, {"id": "reverse_chronological", "status": "pass", "note": ""}, {"id": "title_alignment", "status": "warn", "note": "The CV headline says \"Business Controller Assistant\"; the contract title at Nordlys was Analyst"}, {"id": "plain_characters", "status": "pass", "note": ""}], "contradictions": [{"title": "End date at Nordlys Kraft differs", "detail": "The CV says the role ended in June 2025. The reference letter says the last working day was 31 March 2025.", "sources": ["cv-2025.pdf", "reference-nordlys.pdf"], "severity": "high"}, {"title": "Seven months with nothing recorded", "detail": "Nothing is listed between the end of the degree in June 2020 and the start at Nordlys in February 2021.", "sources": ["cv-2025.pdf", "bachelor-diploma.pdf"], "severity": "low"}], "remove": [{"item": "Skill-level bars", "reason": "An ATS cannot read them, and a self-rating is not evidence"}, {"item": "Café job, 2016–2017", "reason": "Unrelated to the role and before the degree"}, {"item": "Hobbies section", "reason": "Takes five lines and answers nothing in the posting"}, {"item": "Upper secondary school", "reason": "The bachelor's degree makes it redundant"}], "add": [{"item": "Power BI sales dashboard at Nordlys", "reason": "The reference letter documents it and the posting requires Power BI", "needs_confirmation": false}, {"item": "Norskprøve B2 (2024)", "reason": "Attached but not on the CV; the posting requires Norwegian", "needs_confirmation": false}, {"item": "Where Python was used", "reason": "Python is only in the skills list; a role or project is needed to support it", "needs_confirmation": true}], "rewrite": [{"item": "Nordlys Kraft role description", "reason": "Lists duties without naming SQL, Power BI or the report recipients, all of which the sources document"}, {"item": "Headline", "reason": "Use the title held at Nordlys so it lines up with the posting's title"}], "research": [{"finding": "The analytics team reports on hourly consumption for 90,000 household customers", "use": "Cover letter, second paragraph: link to the consumption reports at Nordlys", "source_url": "https://example.com/about"}, {"finding": "The posting asks for the application in Norwegian and names Kari Hansen as contact", "use": "Salutation; send the Norwegian set", "source_url": "https://example.com/jobs/data-analyst"}], "questions": [{"id": "level_en", "question": "English level?", "options": [{"key": "A", "label": "B1: simple sentences"}, {"key": "B", "label": "B2: clear and direct"}, {"key": "C", "label": "C1: fluent"}, {"key": "D", "label": "C2: native-level"}], "multi": false, "allow_custom": true, "recommended": "C"}, {"id": "level_no", "question": "Norwegian level?", "options": [{"key": "A", "label": "B1: simple sentences"}, {"key": "B", "label": "B2: clear and direct"}, {"key": "C", "label": "C1: fluent"}, {"key": "D", "label": "C2: native-level"}], "multi": false, "allow_custom": true, "recommended": "B"}, {"id": "tone", "question": "Cover letter tone?", "options": [{"key": "A", "label": "Friendly, conversational"}, {"key": "B", "label": "Neutral"}, {"key": "C", "label": "Brief and factual"}, {"key": "D", "label": "Formal"}], "multi": false, "allow_custom": true, "recommended": "A"}, {"id": "remove", "question": "Remove these?", "options": [{"key": "A", "label": "Skill-level bars"}, {"key": "B", "label": "Café job, 2016–2017"}, {"key": "C", "label": "Hobbies section"}, {"key": "D", "label": "Upper secondary school"}], "multi": true, "allow_custom": true}, {"id": "missing", "question": "Anything missing from your documents?", "options": [{"key": "A", "label": "No"}], "multi": false, "allow_custom": true}, {"id": "motivation", "question": "Why this employer?", "options": [{"key": "A", "label": "More consumption data in the power market"}, {"key": "B", "label": "Larger team in my field"}, {"key": "C", "label": "Move from reporting to data engineering"}], "multi": true, "allow_custom": true}, {"id": "conflict_1", "question": "End date at Nordlys?", "options": [{"key": "A", "label": "31 Mar 2025 (reference letter)"}, {"key": "B", "label": "Jun 2025 (CV)"}], "multi": false, "allow_custom": true}, {"id": "gap_1", "question": "Azure Data Factory?", "options": [{"key": "A", "label": "Yes, details below"}, {"key": "B", "label": "Some exposure, details below"}, {"key": "C", "label": "No"}, {"key": "D", "label": "Learning it now, details below"}], "multi": false, "allow_custom": true}], "top_fixes": ["Add Power BI: the reference letter proves it", "Switch to one column and drop the skill bars", "Settle the Nordlys end date: CV and letter disagree"], "scores": {"match": 59, "match_band": "mid", "breakdown": [{"category": "must", "weight": 50, "pct": 50, "count": 4, "met": 1, "partial": 2, "missing": 1}, {"category": "experience", "weight": 20, "pct": 100, "count": 2, "met": 2, "partial": 0, "missing": 0}, {"category": "nice", "weight": 15, "pct": 0, "count": 2, "met": 0, "partial": 0, "missing": 2}, {"category": "education", "weight": 10, "pct": 100, "count": 1, "met": 1, "partial": 0, "missing": 0}, {"category": "language", "weight": 5, "pct": 75, "count": 2, "met": 1, "partial": 1, "missing": 0}], "keyword_coverage": 45, "keywords_found": 7, "keywords_total": 15, "ats": 53, "ats_band": "mid", "ats_unreadable": false, "checks_passed": 5}}</script>
 <script>
 (function () {
   "use strict";
@@ -209,7 +211,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
 
   var T = {
     en: {
-      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents to write", fixes: "Fix first", posting: "Job posting",
+      title: "CV analysis", at: "at", sources: "Sources", writes: "Documents", fixes: "Fix first", reloadTitle: "CV reload", sincePhase1: "since phase one", posting: "Job posting",
       langs: { en: "English", no: "Norwegian" },
       match: "Match score", ats: "ATS estimate", keywords: "Keyword coverage", contradictions: "Contradictions",
       of100: "/100",
@@ -242,7 +244,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
       how2: "ATS estimate: 60% keyword coverage (bold keywords count double) and 40% the ten format checks. 75 or more is likely to pass, 50 to 74 at risk, below 50 likely to be filtered out. ATS products differ, and most rank applications for a recruiter instead of rejecting them, so treat this as an estimate."
     },
     no: {
-      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", posting: "Stillingsannonse",
+      title: "CV-analyse", at: "hos", sources: "Kilder", writes: "Dokumenter", fixes: "Gjør først", reloadTitle: "Ny analyse", sincePhase1: "siden fase 1", posting: "Stillingsannonse",
       langs: { en: "Engelsk", no: "Norsk" },
       match: "Match", ats: "ATS-anslag", keywords: "Nøkkelord", contradictions: "Motsigelser",
       of100: "/100",
@@ -277,11 +279,13 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   };
 
   var t = T[D.meta.ui_lang] || T.en;
+  var RELOAD = D.meta.mode === "reload";
+  var PS = D.previous_scores || null;
   var S = D.scores;
   var TONE = { high: "good", mid: "warn", low: "bad", met: "good", partial: "warn", missing: "bad", pass: "good", warn: "warn", fail: "bad" };
   var MARK = { good: "✓", warn: "!", bad: "✕" };
   document.documentElement.lang = D.meta.ui_lang === "no" ? "nb" : "en";
-  document.title = t.title + ": " + D.meta.role + " – " + D.meta.company;
+  document.title = (RELOAD ? t.reloadTitle : t.title) + ": " + D.meta.role + " " + t.at + " " + D.meta.company;
 
   function el(tag, attrs) {
     var node = document.createElement(tag);
@@ -296,6 +300,12 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
       node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
     }
     return node;
+  }
+  function delta(now, before, lowerBetter) {
+    if (!PS || before == null) return null;
+    var d = now - before, good = lowerBetter ? d < 0 : d > 0;
+    return el("div", { class: "delta " + (d === 0 ? "neutral" : good ? "good" : "bad"),
+      text: (d > 0 ? "+" : d < 0 ? "-" : "") + Math.abs(d) + " " + t.sincePhase1 });
   }
   function pill(tone, label) { return el("span", { class: "pill " + tone }, (MARK[tone] ? MARK[tone] + " " : "") + label); }
   function section(title, count, fold) {
@@ -326,7 +336,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   }
 
   // Header
-  app.appendChild(el("div", { class: "eyebrow", text: t.title }));
+  app.appendChild(el("div", { class: "eyebrow", text: RELOAD ? t.reloadTitle : t.title }));
   app.appendChild(el("h1", null, D.meta.role + " " + t.at + " " + D.meta.company));
   app.appendChild(el("p", { class: "sub", text: D.meta.candidate + " · " + D.meta.date }));
   var meta = el("div", { class: "meta" });
@@ -335,25 +345,30 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   if (posting) meta.appendChild(el("span", { class: "chip" }, posting));
   app.appendChild(meta);
   app.appendChild(el("p", { class: "summary", text: D.summary }));
-  var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
-  D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
-  app.appendChild(fixes);
+  if (D.top_fixes.length) {
+    var fixes = el("ol", { class: "fixes", "aria-label": t.fixes });
+    D.top_fixes.forEach(function (f) { fixes.appendChild(el("li", { text: f })); });
+    app.appendChild(fixes);
+  }
 
   // Tiles
   var highCount = D.contradictions.filter(function (c) { return c.severity === "high"; }).length;
   var matchTone = TONE[S.match_band], atsTone = TONE[S.ats_band];
   app.appendChild(el("div", { class: "tiles" },
-    el("div", { class: "tile" }, el("div", { class: "label", text: t.match }), ring(S.match, matchTone), pill(matchTone, t.matchBand[S.match_band])),
+    el("div", { class: "tile" }, el("div", { class: "label", text: t.match }), ring(S.match, matchTone), pill(matchTone, t.matchBand[S.match_band]), delta(S.match, PS && PS.match)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.ats }), ring(S.ats, atsTone), pill(atsTone, t.atsBand[S.ats_band]),
-      S.ats_unreadable ? el("div", { class: "note", text: t.unreadable }) : null),
+      S.ats_unreadable ? el("div", { class: "note", text: t.unreadable }) : null,
+      delta(S.ats, PS && PS.ats)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.keywords }),
       el("div", { class: "big" }, String(S.keyword_coverage), el("small", { text: " %" })),
-      el("div", { class: "note", text: S.keywords_found + " " + t.ofKeywords.replace("{n}", S.keywords_total) })),
+      el("div", { class: "note", text: S.keywords_found + " " + t.ofKeywords.replace("{n}", S.keywords_total) }),
+      delta(S.keyword_coverage, PS && PS.keyword_coverage)),
     el("div", { class: "tile" }, el("div", { class: "label", text: t.contradictions }),
       el("div", { class: "big", text: String(D.contradictions.length) }),
       D.contradictions.length
         ? (highCount ? pill("bad", t.highSev.replace("{n}", highCount)) : el("div", { class: "note", text: t.highSev.replace("{n}", 0) }))
-        : pill("good", t.none))
+        : pill("good", t.none),
+      delta(D.contradictions.length, PS && PS.contradictions, true))
   ));
 
   // Breakdown
@@ -445,6 +460,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
     cols.appendChild(col);
   });
   sec.appendChild(cols);
+  if (RELOAD && !D.remove.length && !D.add.length && !D.rewrite.length) app.removeChild(sec);
 
   // Research
   sec = section(t.research, D.research.length, true);
@@ -459,8 +475,10 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
     });
     sec.appendChild(rl);
   }
+  if (RELOAD && !D.research.length) app.removeChild(sec);
 
   // Form
+  function buildForm() {
   sec = section(t.form, D.questions.length);
   sec.id = "form-section";
   sec.appendChild(el("p", { class: "form-intro", text: t.formIntro }));
@@ -491,7 +509,7 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   });
 
   function collect() {
-    var state = {}, lines = [t.answersHead + ": " + D.meta.role + " – " + D.meta.company, ""];
+    var state = {}, lines = [t.answersHead + ": " + D.meta.role + " " + t.at + " " + D.meta.company, ""];
     D.questions.forEach(function (q) {
       var box = sec.querySelector('.q[data-id="' + q.id.replace(/"/g, "") + '"]');
       var keys = Array.prototype.map.call(box.querySelectorAll("input:checked"), function (n) { return n.value; });
@@ -530,6 +548,8 @@ details:not(.fold) p { margin: 8px 0 0; max-width: 80ch; }
   sec.appendChild(el("div", { class: "actions" }, copyBtn, resetBtn, copied));
   sec.appendChild(out);
   collect();
+  }
+  if (D.questions.length) buildForm();
 
   app.appendChild(el("details", null, el("summary", { text: t.how }), el("p", { text: t.how1 }), el("p", { text: t.how2 })));
 })();

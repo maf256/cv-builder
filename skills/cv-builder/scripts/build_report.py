@@ -6,6 +6,10 @@ Usage: build_report.py <report-data.json> [output.html]
 Validates the data, computes the scores defined in references/analysis-rubric.md,
 writes them back into the JSON under "scores", and fills assets/report-template.html.
 Writes report.html (standalone) and report-chat.html (themed for inline display).
+
+Reload mode: when meta.mode is "reload", the file is normally reload-data.json. The
+output is reload.html and reload-chat.html, there is no form, and the phase one
+scores are read from report-data.json in the same folder and shown as changes.
 Standard library only.
 """
 import json
@@ -60,7 +64,10 @@ def validate(data):
             errors.append(f"{where}.{key}: '{value}' is not one of {sorted(allowed)}")
 
     meta = need(data, "meta", dict, "root")
+    reload = bool(meta) and meta.get("mode") == "reload"
     if meta is not None:
+        if meta.get("mode") not in (None, "reload"):
+            errors.append("meta.mode: only 'reload' is allowed, or leave it out")
         one_of(meta, "ui_lang", LANGS, "meta")
         langs = need(meta, "output_langs", list, "meta")
         if langs is not None and (not langs or not set(langs) <= LANGS):
@@ -74,8 +81,8 @@ def validate(data):
         errors.append(f"summary: {len(summary)} characters; keep it to one sentence under {MAX_SUMMARY}")
     fixes = need(data, "top_fixes", list, "root")
     if fixes is not None:
-        if not 1 <= len(fixes) <= 3:
-            errors.append("top_fixes: give one to three items")
+        if not (0 if reload else 1) <= len(fixes) <= 3:
+            errors.append("top_fixes: give " + ("up to three items" if reload else "one to three items"))
         for i, f in enumerate(fixes):
             if not isinstance(f, str) or len(f) > MAX_FIX:
                 errors.append(f"top_fixes[{i}]: a string under {MAX_FIX} characters")
@@ -203,12 +210,26 @@ def compute_scores(data):
     }
 
 
+def previous_scores(path):
+    """Phase one numbers, for the before/after comparison. None if there is no baseline."""
+    try:
+        before = json.loads(path.read_text(encoding="utf-8"))
+        s = before["scores"]
+        return {
+            "match": s["match"],
+            "ats": s["ats"],
+            "keyword_coverage": s["keyword_coverage"],
+            "contradictions": len(before["contradictions"]),
+        }
+    except (OSError, KeyError, json.JSONDecodeError):
+        return None
+
+
 def main():
     if len(sys.argv) not in (2, 3):
         sys.exit(__doc__)
     data_path = Path(sys.argv[1])
-    out_path = Path(sys.argv[2]) if len(sys.argv) == 3 else data_path.with_name("report.html")
-    chat_path = out_path.with_name(out_path.stem + "-chat.html")
+    explicit_out = Path(sys.argv[2]) if len(sys.argv) == 3 else None
 
     try:
         data = json.loads(data_path.read_text(encoding="utf-8"))
@@ -222,7 +243,13 @@ def main():
             print(f"  - {e}", file=sys.stderr)
         sys.exit(1)
 
+    reload = data["meta"].get("mode") == "reload"
+    out_path = explicit_out or data_path.with_name("reload.html" if reload else "report.html")
+    chat_path = out_path.with_name(out_path.stem + "-chat.html")
+
     data["scores"] = compute_scores(data)
+    if reload:
+        data["previous_scores"] = previous_scores(data_path.with_name("report-data.json"))
     data_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     template = TEMPLATE.read_text(encoding="utf-8")
@@ -238,6 +265,11 @@ def main():
     print(f"Wrote {out_path} and {chat_path.name}")
     print(f"Match {s['match']}/100 ({s['match_band']}) · ATS {s['ats']}/100 ({s['ats_band']}) · "
           f"keywords {s['keywords_found']}/{s['keywords_total']} ({s['keyword_coverage']}%)")
+    before = data.get("previous_scores")
+    if before:
+        print(f"Since phase one: match {s['match'] - before['match']:+d}, ATS {s['ats'] - before['ats']:+d}, "
+              f"keywords {s['keyword_coverage'] - before['keyword_coverage']:+d}, "
+              f"contradictions {len(data['contradictions']) - before['contradictions']:+d}")
 
 
 if __name__ == "__main__":

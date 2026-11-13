@@ -246,7 +246,7 @@ def page(markdown, lang, kind):
     return (
         f'<!doctype html>\n<html lang="{"nb" if lang == "no" else "en"}">\n<head>\n<meta charset="utf-8">\n'
         f'<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        f"<title>{html.escape(name)} – {label}</title>\n<style>{CSS}</style>\n</head>\n"
+        f"<title>{html.escape(name)}, {label}</title>\n<style>{CSS}</style>\n</head>\n"
         f'<body class="{body_class}">\n{to_html(parse(markdown))}\n</body>\n</html>\n'
     )
 

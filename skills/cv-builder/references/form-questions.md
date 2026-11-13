@@ -16,7 +16,7 @@ Fill the form from the top until you reach 8. Whatever does not fit is handled b
 | # | id | Asked when | Question | Options |
 |---|---|---|---|---|
 | 1 | `level_en`, `level_no` | Always; one per output language | "English level?" / "Norwegian level?" | A: B1, simple sentences. B: B2, clear and direct. C: C1, fluent. D: C2, native-level. Recommend the level the sources document |
-| 2 | `tone` | Always | "Tone?" | A: Brief and factual. B: Neutral. C: Warm cover letter, factual CV. D: Formal |
+| 2 | `tone` | Always | "Cover letter tone?" | A: Friendly, conversational. B: Neutral. C: Brief and factual. D: Formal. Recommend A. The CV and résumé stay factual whichever is picked |
 | 3 | `remove` | Always | "Remove these?" | Multi-select, one option per proposed removal. Group minor ones into one option |
 | 4 | `missing` | Always | "Anything missing from your documents?" | A: No. Own answer: skills, jobs, projects or courses, with dates |
 | 5 | `motivation` | Always | "Why this employer?" | Two or three options from the research, plus own answer. The letter needs the user's real reason |

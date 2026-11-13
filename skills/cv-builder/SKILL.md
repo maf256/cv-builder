@@ -14,7 +14,7 @@ File paths below are relative to this skill's directory.
 
 ## Rules that hold in every step
 
-1. **No buzzwords and no filler, anywhere.** This covers the CV, the résumé, the cover letter, the report and your own chat messages. Read `references/writing-rules.md` before writing any text for the user, and run `scripts/lint_text.py` on every document you produce. A document that fails the lint is not finished.
+1. **No buzzwords, no filler and no machine-written tells, anywhere.** This covers the CV, the résumé, the cover letter, the report and your own chat messages. That includes em dashes and contrast framing such as "it's not X, it's Y". Read `references/writing-rules.md` before writing any text for the user, and run `scripts/lint_text.py` on every document you produce. A document that fails the lint is not finished.
 2. **Never invent.** Every fact in an output document must trace to an attached source or to an answer the user gave in the form. If a claim has no source, ask; do not round up job titles, dates, skill levels, grades or numbers. Where the posting asks for something the user lacks, the documents leave it out. They do not imply it.
 3. **No edits before the gate.** Phase 1 proposes changes; it does not write CV text. Do not show rewritten bullets or draft paragraphs until Phase 2.
 4. **One language choice drives everything.** The answer to step 0 sets the conversation language, the report language and the output documents.
@@ -136,7 +136,7 @@ Create only the language folders the user chose.
 
 When both languages are chosen, write each set in its own language from the facts. Do not translate one into the other sentence by sentence; names of employers, degrees and certificates stay in their original form, with a short explanation in brackets where the reader would not know them.
 
-Write to the language level the user chose for each language (`references/writing-rules.md` describes what each CEFR level means on the page) and in the tone they chose.
+Write to the language level the user chose for each language (`references/writing-rules.md` describes what each CEFR level means on the page) and in the tone they chose. The tone applies to the cover letter, which defaults to friendly and conversational and must read like a person wrote it (`Cover letter voice` in `writing-rules.md`). The CV and résumé stay factual whatever the tone.
 
 Then render and check:
 
@@ -145,7 +145,7 @@ python3 scripts/render_docs.py cv-output/<name>
 python3 scripts/lint_text.py cv-output/<name>
 ```
 
-`render_docs.py` turns each Markdown file into a Word file (`.docx`) and a single-column HTML file, both readable by an ATS, and into a PDF when Chrome, Chromium or Edge is installed. `lint_text.py` reports every banned word or phrase with its file and line. Rewrite each flagged sentence, then run both again until the lint passes. Do not silence a hit by swapping in a synonym with the same emptiness; say the concrete thing or delete the sentence.
+`render_docs.py` turns each Markdown file into a Word file (`.docx`) and a single-column HTML file, both readable by an ATS, and into a PDF when Chrome, Chromium or Edge is installed. `lint_text.py` reports every banned word, dash and machine-written pattern with its file and line. Rewrite each flagged sentence, then run both again until the lint passes. Do not silence a hit by swapping in a synonym with the same emptiness; say the concrete thing or delete the sentence.
 
 ## Step 7: verify and hand over
 
@@ -158,5 +158,7 @@ Before you tell the user it is done, check each document against this list:
 - The résumé fits one page; the CV fits the chosen length. `render_docs.py` prints the PDF page counts; without PDFs, keep the résumé under about 450 words.
 - The posting's keywords appear where the user's history supports them, and nowhere else.
 - The lint passes.
+
+Tell the user they can run `/reload` once they have read the documents (or edited them) to get a fresh analysis with new scores next to the phase one numbers.
 
 Then report in chat: the output path, the list of files, what changed against the original CV in a few lines, and anything the user still has to do themselves (for example attach diplomas the posting asks for, or fill in a referee's phone number). Tell them which file to upload: the `.docx` is the safest for an ATS, the PDF for e-mail. If PDFs could not be made, say so and tell them to print the HTML files to PDF from a browser.

@@ -10,13 +10,13 @@ Att. Kari Hansen
 
 Hei Kari,
 
-Jeg søker stillingen som dataanalytiker. I fire år skrev jeg forbruksrapportene hos Nordlys Kraft, og jeg vil fortsette å jobbe med forbruksdata i kraftmarkedet.
+Jeg vil gjerne bli dataanalytiker hos dere. I fire år har jeg laget forbruksrapportene hos Nordlys Kraft, og jeg vil fortsette å jobbe med forbruksdata i kraftmarkedet.
 
-Hos Nordlys laget jeg månedsrapporten for 40 000 husholdningskunder i SQL. Jeg bygget også salgsdashbordet i Power BI, som salgslederne brukte hver uke. Dere rapporterer på timeforbruk for 90 000 kunder. Det er samme type data, i større omfang.
+Hver måned skrev jeg SQL-spørringene bak rapporten til 40 000 husholdningskunder. Jeg bygget også salgsdashbordet i Power BI, og salgslederne åpnet det hver uke. Dere følger timeforbruket til 90 000 kunder. Dataene ligner på det jeg kjenner fra før, bare i større skala.
 
-Jeg har ikke brukt Azure Data Factory. Jeg tar nå Microsoft-kurset DP-203 og er ferdig i mars.
+Azure Data Factory har jeg ikke brukt ennå. Jeg tar Microsoft-kurset DP-203 og er ferdig i mars.
 
 Jeg kan begynne 1. mars.
 
-Med vennlig hilsen  
+Hilsen  
 Sam Example
