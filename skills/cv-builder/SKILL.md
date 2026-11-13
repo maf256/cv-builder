@@ -1,11 +1,11 @@
 ---
 name: cv-builder
-description: Interactive CV builder that tailors a CV, résumé and cover letter to one job posting, in English, Norwegian or both. It first analyses the user's attached CVs, certificates and course records against the posting (match score, ATS check, contradictions, what to remove and add), shows the analysis as an HTML report with a question form, and writes the documents only after the user answers and confirms. Use when the user runs /cv-builder or asks to tailor, review or build a CV, résumé, cover letter, søknad or søknadsbrev for a job application.
+description: Interactive CV builder that tailors a résumé (CV) and cover letter to one job posting, in English, Norwegian or both. It first analyses the user's attached CVs, certificates and course records against the posting (match score, ATS check, contradictions, what to remove and add), shows the analysis as an HTML report with a question form, and writes the documents only after the user answers and confirms. Use when the user runs /cv-builder or asks to tailor, review or build a CV, résumé, cover letter, søknad or søknadsbrev for a job application.
 ---
 
 # CV Builder
 
-This skill turns a person's existing career documents and one job posting into a tailored CV, résumé and cover letter. It runs in two phases with a gate between them:
+This skill turns a person's existing career documents and one job posting into a tailored résumé (the CV) and cover letter. It runs in two phases with a gate between them:
 
 - **Phase 1, analyse.** Read everything, compare it with the posting, and report. Nothing is rewritten in this phase.
 - **Phase 2, write.** Runs only after the user has answered the question form and confirmed. It produces the documents in an output directory.
@@ -113,12 +113,11 @@ When the answers arrive:
 
 Read `references/writing-rules.md` and `references/document-structure.md` first.
 
-For each output language, write three documents as Markdown:
+For each output language, write two documents as Markdown. There is no separate long CV:
 
 | File | What it is |
 |---|---|
-| `cv.md` | The full CV: complete relevant history, up to the length the user chose |
-| `resume.md` | One page, only what matters for this posting |
+| `resume.md` | The résumé, which is the CV: only what matters for this posting, one page by default |
 | `cover-letter.md` | The cover letter (søknadsbrev), addressed to this employer and this role |
 
 Layout of the output directory:
@@ -128,15 +127,15 @@ cv-output/<name>/
   report.html
   report-data.json
   answers.md
-  en/  cv.md  resume.md  cover-letter.md  (+ .docx, .html and .pdf for each)
-  no/  cv.md  resume.md  cover-letter.md  (+ .docx, .html and .pdf for each)
+  en/  resume.md  cover-letter.md  (+ .docx, .html and .pdf for each)
+  no/  resume.md  cover-letter.md  (+ .docx, .html and .pdf for each)
 ```
 
 Create only the language folders the user chose.
 
 When both languages are chosen, write each set in its own language from the facts. Do not translate one into the other sentence by sentence; names of employers, degrees and certificates stay in their original form, with a short explanation in brackets where the reader would not know them.
 
-Write to the language level the user chose for each language (`references/writing-rules.md` describes what each CEFR level means on the page) and in the tone they chose. The tone applies to the cover letter, which defaults to friendly and conversational and must read like a person wrote it (`Cover letter voice` in `writing-rules.md`). The CV and résumé stay factual whatever the tone.
+Write to the language level the user chose for each language (`references/writing-rules.md` describes what each CEFR level means on the page) and in the tone they chose. The tone applies to the cover letter, which defaults to friendly and conversational and must read like a person wrote it (`Cover letter voice` in `writing-rules.md`). The résumé stays factual whatever the tone.
 
 Then render and check:
 
@@ -145,7 +144,7 @@ python3 scripts/render_docs.py cv-output/<name>
 python3 scripts/lint_text.py cv-output/<name>
 ```
 
-`render_docs.py` turns each Markdown file into a Word file (`.docx`) and a single-column HTML file, both readable by an ATS, and into a PDF when Chrome, Chromium or Edge is installed. `lint_text.py` reports every banned word, dash and machine-written pattern with its file and line. Rewrite each flagged sentence, then run both again until the lint passes. Do not silence a hit by swapping in a synonym with the same emptiness; say the concrete thing or delete the sentence.
+`render_docs.py` turns each Markdown file into a Word file (`.docx`) and a single-column HTML file, both readable by an ATS, and into a PDF when Chrome, Chromium or Edge is installed. `lint_text.py` reports every banned word, dash, machine-written pattern and list-layout error (Languages, Education, Courses) with its file and line. Rewrite each flagged sentence, then run both again until the lint passes. Do not silence a hit by swapping in a synonym with the same emptiness; say the concrete thing or delete the sentence.
 
 ## Step 7: verify and hand over
 
@@ -154,8 +153,8 @@ Before you tell the user it is done, check each document against this list:
 - Every fact is in the ledger or in `answers.md`.
 - Every removal the user approved is gone, and nothing they wanted kept was dropped.
 - The contradictions are resolved the way the user said.
-- Dates, titles and employer names are identical across the CV, the résumé and the cover letter, and across both languages.
-- The résumé fits one page; the CV fits the chosen length. `render_docs.py` prints the PDF page counts; without PDFs, keep the résumé under about 450 words.
+- Dates, titles and employer names are identical across the résumé and the cover letter, and across both languages.
+- The résumé fits one page, or two if the user agreed to that at the gate. `render_docs.py` prints the PDF page counts; without PDFs, keep it under about 450 words (900 for two pages).
 - The posting's keywords appear where the user's history supports them, and nowhere else.
 - The lint passes.
 

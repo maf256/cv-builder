@@ -1,6 +1,6 @@
 ---
 name: reload
-description: Side phase of /cv-builder. After the CV, résumé and cover letter are written, re-runs the analysis on those documents and shows a fresh one-sentence summary with new scores next to the phase one scores. Changes nothing. Use when the user runs /reload, or asks to re-check, re-score or re-analyse their finished CV after /cv-builder.
+description: Side phase of /cv-builder. After the résumé and cover letter are written, re-runs the analysis on those documents and shows a fresh one-sentence summary with new scores next to the phase one scores. Changes nothing. Use when the user runs /reload, or asks to re-check, re-score or re-analyse their finished CV after /cv-builder.
 ---
 
 # Reload
@@ -17,32 +17,32 @@ The scripts, template and rubric belong to the sibling skill `cv-builder` (the f
 
 ## Steps
 
-1. **Find the run.** Look in `cv-output/` in the working directory for folders that contain `report-data.json` and at least one `cv.md` under `en/` or `no/`.
+1. **Find the run.** Look in `cv-output/` in the working directory for folders that contain `report-data.json` and at least one `resume.md` under `en/` or `no/`.
    - One match: use it. Several: list them, newest first, and ask which.
    - A folder with `report-data.json` but no documents: phase two has not run. Say so and stop; the user needs to finish `/cv-builder`.
    - No folder: tell the user to run `/cv-builder` first.
 2. **Language.** Use `meta.ui_lang` from `report-data.json`. Do not ask again.
 3. **Read** everything the analysis rests on:
    - `report-data.json` (phase one: requirements, keywords, contradictions, scores) and `answers.md`
-   - the current `cv.md`, `resume.md` and `cover-letter.md` in each language folder. If the user says they edited the Word or PDF file instead, read that file and use it as the text
+   - the current `resume.md` and `cover-letter.md` in each language folder. If the user says they edited the Word or PDF file instead, read that file and use it as the text
    - the source files listed in `meta.sources`, when they are still available, to check the new documents against the facts
    - the posting at `meta.posting_url`; if it cannot be fetched, rely on the requirements saved in `report-data.json`
 4. **Re-run the analysis** as defined in `cv-builder/references/analysis-rubric.md`, with these rules:
    - Keep the phase one requirements, with the same text and categories, so the scores compare. Add a requirement only if the posting has changed.
    - Rate each as `met` only when the new CV shows it and a source or a form answer supports it. A claim the sources do not support is a new `high` contradiction.
-   - Re-check the keywords against the full CV in the language the posting is written in.
-   - Rate the ten ATS checks on the new CV: headings, dates, single column, title alignment, and the rest. For the Word and HTML files the renderer produces, check the file rather than assuming.
+   - Re-check the keywords against the résumé in the language the posting is written in.
+   - Rate the ten ATS checks on the new résumé: headings, dates, single column, title alignment, and the rest. For the Word and HTML files the renderer produces, check the file rather than assuming.
 5. **Check the documents against the run.** Each failure becomes a contradiction, a still-open fix, or a `remove`, `add` or `rewrite` item:
    - every approved removal is gone, and every approved addition is present
    - every answer in `answers.md` shows up where it should
-   - dates, titles and employers match across the CV, the résumé, the cover letter and both languages
+   - dates, titles and employers match across the résumé, the cover letter and both languages
    - nothing appears in the documents that no source supports
-   - the résumé fits one page: run `python3 scripts/render_docs.py <folder>` and read the page counts, or keep it under about 450 words when no PDF can be made
-   - the lint passes: `python3 scripts/lint_text.py <folder>`. List any hits as an open fix
+   - the résumé fits one page, or two if the plan said so: run `python3 scripts/render_docs.py <folder>` and read the page counts, or keep it under about 450 words when no PDF can be made
+   - the lint passes, including the list layout of Languages, Education and Courses: `python3 scripts/lint_text.py <folder>`. List any hits as an open fix
    - the cover letter reads like a person wrote it: no contrast framing, no tidy closing line, varied sentence length, a concrete detail or two
 6. **Write `reload-data.json`** in the same folder, following `cv-builder/references/report-data.md` with these differences:
    - `meta.mode` is `"reload"`
-   - `summary`: one sentence under 160 characters that states the result, for example "Match up 24 points; the Nordlys end date still differs between the CV and the letter."
+   - `summary`: one sentence under 160 characters that states the result, for example "Match up 24 points; the Nordlys end date still differs between the résumé and the letter."
    - `top_fixes`: what is still open, from zero to three items, most important first. Leave it empty when nothing is
    - `contradictions`: the ones that remain or are new, not the resolved ones
    - `remove`, `add`, `rewrite`: only what is still worth changing; usually empty

@@ -1,6 +1,6 @@
 # cv-builder
 
-A Claude skill that tailors a CV, résumé and cover letter to one job posting, in English, Norwegian or both.
+A Claude skill that tailors a résumé (CV) and cover letter to one job posting, in English, Norwegian or both.
 
 It works in two rounds. First it reads your documents and the posting and reports what it found. It rewrites nothing until you have answered its questions and confirmed.
 
@@ -27,20 +27,20 @@ After you confirm, it writes into `cv-output/fullname-jobtitle-company/`, for ex
 ```
 report.html
 answers.md
-en/  cv  resume  cover-letter     (.md, .docx, .html, .pdf)
-no/  cv  resume  cover-letter     (.md, .docx, .html, .pdf)
+en/  resume  cover-letter     (.md, .docx, .html, .pdf)
+no/  resume  cover-letter     (.md, .docx, .html, .pdf)
 ```
 
 Only the languages you chose are written. PDFs are made when Chrome, Chromium or Edge is installed; the Word and HTML files are always made.
 
 ## /reload
 
-After phase two, run `/reload` for a fresh check of the finished documents. It analyses the new CV, résumé and cover letter the same way phase one analysed the old CV, then shows a one-sentence summary and new scores with the change since phase one on each number. It asks nothing, shows no form and edits nothing. If something is still open it offers to fix it, and you can run `/reload` again afterwards. Output: `reload.html` in the same folder.
+After phase two, run `/reload` for a fresh check of the finished documents. It analyses the new résumé and cover letter the same way phase one analysed the old CV, then shows a one-sentence summary and new scores with the change since phase one on each number. It asks nothing, shows no form and edits nothing. If something is still open it offers to fix it, and you can run `/reload` again afterwards. Output: `reload.html` in the same folder.
 
 ## Rules the skill follows
 
-- **No buzzwords, filler or machine-written tells.** A lint script checks every document against a list of banned words in both languages (`references/banned-words.txt`), against em dashes and other dash substitutes, and against patterns such as "it's not X, it's Y". The run is not finished until it passes.
-- **A cover letter that sounds like a person.** The default tone is friendly and conversational: first-name salutation, short common words, varied sentence length, one or two concrete details, no tidy closing line. The CV and résumé stay factual.
+- **No buzzwords, filler or machine-written tells.** A lint script checks every document against a list of banned words in both languages (`references/banned-words.txt`), against em dashes and other dash substitutes, against patterns such as "it's not X, it's Y", and for list layout: Languages, Education and Courses go one per line up to three entries, and on one line beyond that. The run is not finished until it passes.
+- **A cover letter that sounds like a person.** The default tone is friendly and conversational: first-name salutation, short common words, varied sentence length, one or two concrete details, no tidy closing line. The résumé stays factual.
 - **Nothing invented.** Every fact comes from your documents or your form answers.
 - **No edits before you confirm.**
 - **Your data stays local.** The skill fetches the posting and researches the employer; it does not send your details anywhere.
@@ -85,7 +85,7 @@ skills/cv-builder/
     report-data.md              the data format behind the report
     form-questions.md           the fixed and conditional form questions
     writing-rules.md            buzzword rule, language levels, tone
-    document-structure.md       CV, résumé and cover letter structure; Norwegian conventions
+    document-structure.md       résumé and cover letter structure, list layout; Norwegian conventions
     banned-words.txt            the lint list, English and Norwegian
   assets/report-template.html   the report page (standalone and chat versions)
 skills/reload/SKILL.md          /reload: re-analyses the finished documents
@@ -93,7 +93,7 @@ skills/reload/SKILL.md          /reload: re-analyses the finished documents
     build_report.py             validates data, computes scores, fills the template
     slug.py                     folder name: fullname-jobtitle-company
     render_docs.py              Markdown to Word, HTML and PDF
-    lint_text.py                banned words, dashes, AI patterns
+    lint_text.py                banned words, dashes, AI patterns, list layout
 examples/sam-example-data-analyst-acme-energi-as/     a fictional run: report data, a résumé, a cover letter
 ```
 

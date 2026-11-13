@@ -33,27 +33,40 @@ Use these names. ATS parsers look for them.
 | Volunteering | Verv og frivillig arbeid |
 | References | Referanser |
 
-## cv.md: the full CV
+## resume.md: the résumé (CV)
+
+The résumé is the one CV document. In Norwegian it is the "CV". There is no separate long version.
 
 Order: name and contact line, summary, experience, education, courses and certifications, skills, languages, then volunteering and references if used. Put education before experience when the user is a recent graduate or the posting weighs the degree more than the work history.
 
-- **Summary**: two or three sentences of fact: current role or field, years in it, the two or three qualifications the posting asks for that the user has. Leave it out when the tone is brief and it would only repeat the first entry.
-- **Experience**: newest first. Each entry has title, employer, dates, place, and two to five bullets. Give recent and relevant roles more bullets. Older or unrelated roles that are kept get one line or none.
+- **Length**: one A4 page by default, about 450 words. Two pages only when the history needs it and the user agreed in the plan at the gate, about 900 words.
+- **Summary**: one or two sentences of fact: current role or field, years in it, the qualifications the posting asks for that the user has. Leave it out when the tone is brief and it would only repeat the first entry.
+- **Experience**: newest first. Each entry has title, employer, dates, place, and two to four bullets. Give recent and relevant roles more bullets. Older or unrelated roles that are kept become one line under an "Earlier roles" / "Tidligere stillinger" entry, or are dropped.
 - **Education**: degree, institution, dates. Add the thesis or main subjects only when they answer a requirement.
-- **Skills**: grouped by kind in plain lines, for example `- Programming: Python, SQL, TypeScript`. List only skills the ledger supports. No self-ratings, bars or stars.
+- **Skills**: grouped by kind in plain lines, for example `- Programming: Python, SQL, TypeScript`. List only skills the ledger supports, preferring the posting's keywords. No self-ratings, bars or stars.
 - **Languages**: language and level. Use CEFR levels or the standard terms (morsmål, flytende; native, fluent) and the test name when there is one (Norskprøve B2, IELTS 7.5).
-- Length follows the user's answer to `length`.
+- No references section unless the user asked for one.
 
-## resume.md: one page
+### List layout (checked by the lint)
 
-The same facts, cut to what this posting needs. It must fit one A4 page when rendered.
+Education, Courses and certifications, and Languages follow one rule, by the number of entries in the section. Exactly three counts as three or fewer.
 
-- Summary of at most two sentences, or none.
-- The three or four most relevant roles, two or three bullets each. Earlier roles become one line under an "Earlier roles" / "Tidligere stillinger" entry, or are dropped.
-- Highest degree and the certifications the posting names.
-- One skills block with the posting's keywords the user holds.
-- Languages on one line.
-- No references section.
+| Entries | Layout |
+|---|---|
+| Three or fewer | One entry per line: a bullet, or a `###` entry for a degree or course |
+| More than three | Everything on one line, entries separated by semicolons. Languages may use commas when each level is in brackets |
+
+```
+## Languages
+- English (native)
+- Norwegian (B2)
+
+## Languages
+English (native), Norwegian (B2), Spanish (A2), German (A1)
+
+## Courses and certifications
+Norskprøve B2, 2024; AWS Solutions Architect, 2024; Scrum Master, 2022; First aid, 2023
+```
 
 ## cover-letter.md
 
@@ -89,7 +102,7 @@ Name
 
 ## Norwegian conventions
 
-- A Norwegian CV is one to two pages. Reference letters (attester) and diplomas (vitnemål) are sent as separate attachments when the posting asks for them; the CV does not reproduce them.
+- A Norwegian CV is one to two pages; here it is one unless the user chose two. Reference letters (attester) and diplomas (vitnemål) are sent as separate attachments when the posting asks for them; the CV does not reproduce them.
 - Date of birth and a photo are optional and uncommon in the public sector. Follow the user's answer to `personal`.
 - References: "Oppgis ved forespørsel" is accepted. If listed, give name, title, employer, phone.
 - Foreign degrees: keep the original name and add the Norwegian equivalent in brackets only when the user has a recognition decision (HK-dir, formerly NOKUT) or states the equivalence.

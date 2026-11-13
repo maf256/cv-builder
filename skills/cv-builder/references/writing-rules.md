@@ -74,7 +74,7 @@ For Norwegian, the same scale applies. At B1 and B2 avoid long compounds where t
 
 ## Tone
 
-The tone choice applies to the cover letter. The CV and the résumé stay factual in every case: plain bullets, no voice.
+The tone choice applies to the cover letter. The résumé stays factual in every case: plain bullets, no voice.
 
 | Choice | Meaning |
 |---|---|

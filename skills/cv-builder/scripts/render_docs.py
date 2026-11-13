@@ -3,7 +3,7 @@
 
 Usage: render_docs.py <output-directory> [--no-pdf]
 
-Converts every cv.md, resume.md and cover-letter.md under the directory to a
+Converts every resume.md and cover-letter.md under the directory to a
 single-column HTML file and a Word file (.docx) with one fixed style, and to
 PDF when Chrome, Chromium or Edge is installed. Supports the Markdown subset
 described in references/document-structure.md. Standard library only.
@@ -17,7 +17,7 @@ import zipfile
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-DOC_NAMES = ("cv.md", "resume.md", "cover-letter.md")
+DOC_NAMES = ("resume.md", "cover-letter.md")
 
 CSS = """
 @page { size: A4; margin: 16mm 18mm; }
@@ -238,8 +238,8 @@ def page(markdown, lang, kind):
     title = re.search(r"^#\s+(.+)$", markdown, re.MULTILINE)
     name = title.group(1).strip() if title else ""
     labels = {
-        "en": {"cv": "CV", "resume": "Résumé", "cover-letter": "Cover letter"},
-        "no": {"cv": "CV", "resume": "CV (kort)", "cover-letter": "Søknad"},
+        "en": {"resume": "Résumé", "cover-letter": "Cover letter"},
+        "no": {"resume": "CV", "cover-letter": "Søknad"},
     }
     label = labels[lang][kind]
     body_class = "letter" if kind == "cover-letter" else "doc"
@@ -295,8 +295,10 @@ def main():
             if result.returncode == 0 and pdf_path.exists():
                 pages = pdf_pages(pdf_path)
                 line += f"  +  {pdf_path.name} ({pages} page{'s' if pages != 1 else ''})"
-                if src.name in ("resume.md", "cover-letter.md") and pages > 1:
+                if src.name == "cover-letter.md" and pages > 1:
                     line += "  <-- must fit one page: shorten it"
+                elif src.name == "resume.md" and pages > 1:
+                    line += "  <-- over one page: shorten it, or keep two only if the user agreed"
             else:
                 line += "  (PDF failed)"
         print(line)
